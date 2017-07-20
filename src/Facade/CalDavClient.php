@@ -1,0 +1,420 @@
+<?php namespace CalDAVClient\Facade;
+
+/**
+ * Copyright 2017 OpenStack Foundation
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ **/
+
+use CalDAVClient\Facade\Exceptions\ForbiddenException;
+use CalDAVClient\Facade\Requests\CalDAVRequestFactory;
+use CalDAVClient\Facade\Requests\CalendarQueryFilter;
+use CalDAVClient\Facade\Requests\EventRequestDTO;
+use CalDAVClient\Facade\Requests\MakeCalendarRequestDTO;
+use CalDAVClient\Facade\Responses\CalendarHomesResponse;
+use CalDAVClient\Facade\Responses\CalendarSyncInfoResponse;
+use CalDAVClient\Facade\Responses\EventCreatedResponse;
+use CalDAVClient\Facade\Responses\EventDeletedResponse;
+use CalDAVClient\Facade\Responses\EventUpdatedResponse;
+use CalDAVClient\Facade\Responses\GetCalendarResponse;
+use CalDAVClient\Facade\Responses\GetCalendarsResponse;
+use CalDAVClient\Facade\Responses\ResourceCollectionResponse;
+use CalDAVClient\Facade\Responses\UserPrincipalResponse;
+use CalDAVClient\Facade\Utils\RequestFactory;
+use CalDAVClient\ICalDavClient;
+use CalDAVClient\Facade\Exceptions\NotFoundResourceException;
+use CalDAVClient\Facade\Exceptions\ServerErrorException;
+use CalDAVClient\Facade\Exceptions\UserUnAuthorizedException;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Psr7\Request;
+
+/**
+ * Class CalDavClient
+ * @package CalDAVClient\Facade
+ */
+final class CalDavClient implements ICalDavClient
+{
+
+    /**
+     * As indicated in Section 3.10 of [RFC2445], the URL of calendar object
+     * resources containing (an arbitrary set of) calendaring and scheduling
+    * information may be suffixed by ".ics", and the URL of calendar object
+    * resources containing free or busy time information may be suffixed by
+    ".ifb".
+     */
+
+    const SchedulingInformationSuffix   = '.ics';
+
+    const FreeBusyTimeInformationSuffix = '.ics';
+
+    const ETagHeader           = 'ETag';
+
+    const DAVHeader            = 'DAV';
+
+    const CalendarAccessOption = 'calendar-access';
+
+    /**
+     * @var string
+     */
+    private $server_url;
+
+    /**
+     * @var string
+     */
+    private $user;
+
+    /**
+     * @var string
+     */
+    private $password;
+
+    /**
+     * @var Client
+     */
+    private $client;
+
+    /**
+     * @var int
+     */
+    private $timeout = 60;
+
+    /**
+     * CalDavClient constructor.
+     * @param string $server_url
+     * @param string|null $user
+     * @param string|null $password
+     */
+    public function __construct($server_url, $user = null, $password = null)
+    {
+        $this->server_url = $server_url;
+        $this->user       = $user;
+        $this->password   = $password;
+        $this->client     = new Client();
+    }
+
+    /**
+     * @param string $server_url
+     * @return void
+     */
+    function setServerUrl($server_url)
+    {
+        $this->server_url = $server_url;
+    }
+
+    /**
+     * @param string $username
+     * @param string $password
+     * @return void
+     */
+    function setCredentials($username, $password)
+    {
+        $this->user     = $username;
+        $this->password = $password;
+    }
+
+    /**
+     * @param Request $http_request
+     * @return mixed|\Psr\Http\Message\ResponseInterface
+     */
+    private function makeRequest(Request $http_request){
+        try{
+            return $this->client->send($http_request, [
+                'auth'    => [$this->user, $this->password],
+                'timeout' => $this->timeout
+            ]);
+        }
+        catch (ClientException $ex){
+            switch($ex->getCode()){
+                case 401:
+                    throw new UserUnAuthorizedException();
+                    break;
+                case 404:
+                    throw new NotFoundResourceException();
+                    break;
+                case 403:
+                    throw new ForbiddenException();
+                default:
+                    throw new ServerErrorException();
+                    break;
+            }
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    function isValidServer()
+    {
+
+        $http_response = $this->makeRequest(
+            RequestFactory::createOptionsRequest($this->server_url)
+        );
+
+        $res     = $http_response->hasHeader(self::DAVHeader);
+        $options = [];
+        if($res){
+            $val = $http_response->getHeaderLine(self::DAVHeader);
+            if(!empty($val)){
+                $options = explode(', ', $val);
+            }
+        }
+
+        return $res && count($options) > 0 && in_array(self::CalendarAccessOption, $options);
+    }
+
+    /**
+     * @return UserPrincipalResponse
+     */
+    function getUserPrincipal()
+    {
+        $http_response = $this->makeRequest(
+            RequestFactory::createPropFindRequest
+            (
+                $this->server_url,
+                CalDAVRequestFactory::getInstance()->build(CalDAVRequestFactory::PrincipalRequestType)->getContent()
+            )
+        );
+
+        return new UserPrincipalResponse($this->server_url, (string)$http_response->getBody(), $http_response->getStatusCode());
+    }
+
+    /**
+     * @param string $principal_url
+     * @return CalendarHomesResponse
+     */
+    function getCalendarHome($principal_url)
+    {
+        $http_response = $this->makeRequest(
+            RequestFactory::createPropFindRequest
+            (
+                $principal_url,
+                CalDAVRequestFactory::getInstance()->build(CalDAVRequestFactory::CalendarHomeRequestType)->getContent()
+            )
+        );
+
+        return new CalendarHomesResponse($this->server_url, (string)$http_response->getBody(), $http_response->getStatusCode());
+    }
+
+    /**
+     * @param string $calendar_home_set
+     * @param MakeCalendarRequestDTO $dto
+     * @see https://tools.ietf.org/html/rfc4791#section-5.3.1
+     * @return string|boolean
+     */
+    function createCalendar($calendar_home_set, MakeCalendarRequestDTO $dto)
+    {
+        $http_response = $this->makeRequest(
+            RequestFactory::createMakeCalendarRequest
+            (
+                $calendar_home_set.$dto->getResourceName(),
+                CalDAVRequestFactory::getInstance()->build(CalDAVRequestFactory::CalendarCreateRequestType, [$dto])->getContent()
+            )
+        );
+
+        return $http_response->getStatusCode() == 201 ? $calendar_home_set.$dto->getResourceName() : false;
+    }
+
+    /**
+     * @param string $calendar_home_set_url
+     * @return GetCalendarsResponse
+     */
+    function getCalendars($calendar_home_set_url)
+    {
+        $http_response = $this->makeRequest(
+            RequestFactory::createPropFindRequest
+            (
+                $calendar_home_set_url,
+                CalDAVRequestFactory::getInstance()->build(CalDAVRequestFactory::CalendarsRequestType)->getContent()
+            )
+        );
+
+        return new GetCalendarsResponse($this->server_url, (string)$http_response->getBody(), $http_response->getStatusCode());
+    }
+
+    /**
+     * @param string $calendar_url
+     * @return GetCalendarResponse
+     */
+    function getCalendar($calendar_url)
+    {
+        $http_response = $this->makeRequest(
+            RequestFactory::createPropFindRequest
+            (
+                $calendar_url,
+                CalDAVRequestFactory::getInstance()->build(CalDAVRequestFactory::CalendarRequestType)->getContent(),
+                0
+            )
+        );
+
+        return new GetCalendarResponse($this->server_url, (string)$http_response->getBody(), $http_response->getStatusCode());
+    }
+
+
+    /**
+     * @param string $calendar_url
+     * @param string $sync_token
+     * @return CalendarSyncInfoResponse
+     */
+    function getCalendarSyncInfo($calendar_url, $sync_token)
+    {
+
+        $http_response = $this->makeRequest(
+            RequestFactory::createReportRequest
+            (
+                $calendar_url,
+                CalDAVRequestFactory::getInstance()->build(CalDAVRequestFactory::CalendarSyncRequestType, [$sync_token])->getContent()
+            )
+        );
+
+        return new CalendarSyncInfoResponse($this->server_url, (string)$http_response->getBody(), $http_response->getStatusCode());
+    }
+
+    /**
+     * @param string $calendar_url
+     * @param EventRequestDTO $dto
+     * @return EventCreatedResponse
+     */
+    function createEvent($calendar_url, EventRequestDTO $dto)
+    {
+        $uid           = $dto->getUID();
+        $resource_url  = $calendar_url.$uid.self::SchedulingInformationSuffix;
+        $http_response = $this->makeRequest(
+            RequestFactory::createPutRequest
+            (
+                $resource_url,
+                CalDAVRequestFactory::getInstance()->build(CalDAVRequestFactory::EventCreateRequestType, [$dto])->getContent()
+            )
+        );
+        $etag = $http_response->hasHeader(self::ETagHeader) ? $http_response->getHeaderLine(self::ETagHeader) : null;
+        return new EventCreatedResponse
+        (
+            $uid,
+            $etag,
+            $resource_url,
+            (string)$http_response->getBody(),
+            $http_response->getStatusCode()
+        );
+    }
+
+    /**
+     * @param string $calendar_url
+     * @param EventRequestDTO $dto
+     * @param string $etag
+     * @return EventUpdatedResponse
+     */
+    function updateEvent($calendar_url, EventRequestDTO $dto, $etag)
+    {
+        $uid           = $dto->getUID();
+        $resource_url  = $calendar_url.$uid.self::SchedulingInformationSuffix;
+        $http_response = $this->makeRequest(
+            RequestFactory::createPutRequest
+            (
+                $resource_url,
+                CalDAVRequestFactory::getInstance()->build(CalDAVRequestFactory::EventUpdateRequestType, [$dto])->getContent(),
+                $etag
+            )
+        );
+        $etag = $http_response->hasHeader(self::ETagHeader) ? $http_response->getHeaderLine(self::ETagHeader) : null;
+        return new EventUpdatedResponse
+        (
+            $uid,
+            $etag,
+            $resource_url,
+            (string)$http_response->getBody(),
+            $http_response->getStatusCode()
+        );
+    }
+
+    /**
+     * @param string $calendar_url
+     * @param string $uid
+     * @param string $etag
+     * @return EventDeletedResponse
+     */
+    function deleteEvent($calendar_url, $uid, $etag)
+    {
+        $http_response = $this->makeRequest(
+            RequestFactory::createDeleteRequest
+            (
+                $calendar_url.$uid.self::SchedulingInformationSuffix,
+                $etag
+            )
+        );
+
+        return new EventDeletedResponse
+        (
+            $this->server_url, (string)$http_response->getBody(), $http_response->getStatusCode()
+        );
+    }
+
+    /**
+     * @param string $event_url
+     * @return string
+     */
+    function getEventVCardBy($event_url){
+        $http_response = $this->makeRequest(
+            RequestFactory::createGetRequest
+            (
+                $event_url
+            )
+        );
+
+        $ical = (string)$http_response->getBody();
+        return $ical;
+    }
+
+    /**
+     * @param string $calendar_url
+     * @param array $events_urls
+     * @return ResourceCollectionResponse
+     */
+    function getEventsBy($calendar_url, array $events_urls)
+    {
+        $http_response = $this->makeRequest(
+            RequestFactory::createReportRequest
+            (
+                $calendar_url,
+                CalDAVRequestFactory::getInstance()->build(CalDAVRequestFactory::CalendarMultiGetRequestType, [$events_urls])->getContent()
+            )
+        );
+
+        return new ResourceCollectionResponse
+        (
+            $this->server_url,
+            (string)$http_response->getBody(),
+            $http_response->getStatusCode()
+        );
+    }
+
+    /**
+     * @param string $calendar_url
+     * @param CalendarQueryFilter $filter
+     * @return ResourceCollectionResponse
+     */
+    function getEventsByQuery($calendar_url, CalendarQueryFilter $filter)
+    {
+
+        $http_response = $this->makeRequest(
+            RequestFactory::createReportRequest
+            (
+                $calendar_url,
+                CalDAVRequestFactory::getInstance()->build(CalDAVRequestFactory::CalendarQueryRequestType, [$filter])->getContent()
+            )
+        );
+
+        return new ResourceCollectionResponse
+        (
+            $this->server_url,
+            (string)$http_response->getBody(),
+            $http_response->getStatusCode()
+        );
+    }
+}
