@@ -46,9 +46,9 @@ final class CalDavClient implements ICalDavClient
     /**
      * As indicated in Section 3.10 of [RFC2445], the URL of calendar object
      * resources containing (an arbitrary set of) calendaring and scheduling
-    * information may be suffixed by ".ics", and the URL of calendar object
-    * resources containing free or busy time information may be suffixed by
-    ".ifb".
+     * information may be suffixed by ".ics", and the URL of calendar object
+     * resources containing free or busy time information may be suffixed by
+     * ".ifb".
      */
 
     const SchedulingInformationSuffix   = '.ics';
@@ -104,7 +104,7 @@ final class CalDavClient implements ICalDavClient
      * @param string $server_url
      * @return void
      */
-    function setServerUrl($server_url)
+    public function setServerUrl($server_url)
     {
         $this->server_url = $server_url;
     }
@@ -114,7 +114,7 @@ final class CalDavClient implements ICalDavClient
      * @param string $password
      * @return void
      */
-    function setCredentials($username, $password)
+    public function setCredentials($username, $password)
     {
         $this->user     = $username;
         $this->password = $password;
@@ -151,7 +151,7 @@ final class CalDavClient implements ICalDavClient
     /**
      * @return bool
      */
-    function isValidServer()
+    public function isValidServer()
     {
 
         $http_response = $this->makeRequest(
@@ -173,7 +173,7 @@ final class CalDavClient implements ICalDavClient
     /**
      * @return UserPrincipalResponse
      */
-    function getUserPrincipal()
+    public function getUserPrincipal()
     {
         $http_response = $this->makeRequest(
             RequestFactory::createPropFindRequest
@@ -190,7 +190,7 @@ final class CalDavClient implements ICalDavClient
      * @param string $principal_url
      * @return CalendarHomesResponse
      */
-    function getCalendarHome($principal_url)
+    public function getCalendarHome($principal_url)
     {
         $http_response = $this->makeRequest(
             RequestFactory::createPropFindRequest
@@ -209,7 +209,7 @@ final class CalDavClient implements ICalDavClient
      * @see https://tools.ietf.org/html/rfc4791#section-5.3.1
      * @return string|boolean
      */
-    function createCalendar($calendar_home_set, MakeCalendarRequestDTO $dto)
+    public function createCalendar($calendar_home_set, MakeCalendarRequestDTO $dto)
     {
         $http_response = $this->makeRequest(
             RequestFactory::createMakeCalendarRequest
@@ -226,7 +226,7 @@ final class CalDavClient implements ICalDavClient
      * @param string $calendar_home_set_url
      * @return GetCalendarsResponse
      */
-    function getCalendars($calendar_home_set_url)
+    public function getCalendars($calendar_home_set_url)
     {
         $http_response = $this->makeRequest(
             RequestFactory::createPropFindRequest
@@ -243,7 +243,7 @@ final class CalDavClient implements ICalDavClient
      * @param string $calendar_url
      * @return GetCalendarResponse
      */
-    function getCalendar($calendar_url)
+    public function getCalendar($calendar_url)
     {
         $http_response = $this->makeRequest(
             RequestFactory::createPropFindRequest
@@ -263,7 +263,7 @@ final class CalDavClient implements ICalDavClient
      * @param string $sync_token
      * @return CalendarSyncInfoResponse
      */
-    function getCalendarSyncInfo($calendar_url, $sync_token)
+    public function getCalendarSyncInfo($calendar_url, $sync_token)
     {
 
         $http_response = $this->makeRequest(
@@ -282,7 +282,7 @@ final class CalDavClient implements ICalDavClient
      * @param EventRequestDTO $dto
      * @return EventCreatedResponse
      */
-    function createEvent($calendar_url, EventRequestDTO $dto)
+    public function createEvent($calendar_url, EventRequestDTO $dto)
     {
         $uid           = $dto->getUID();
         $resource_url  = $calendar_url.$uid.self::SchedulingInformationSuffix;
@@ -310,7 +310,7 @@ final class CalDavClient implements ICalDavClient
      * @param string $etag
      * @return EventUpdatedResponse
      */
-    function updateEvent($calendar_url, EventRequestDTO $dto, $etag)
+    public function updateEvent($calendar_url, EventRequestDTO $dto, $etag)
     {
         $uid           = $dto->getUID();
         $resource_url  = $calendar_url.$uid.self::SchedulingInformationSuffix;
@@ -339,7 +339,7 @@ final class CalDavClient implements ICalDavClient
      * @param string $etag
      * @return EventDeletedResponse
      */
-    function deleteEvent($calendar_url, $uid, $etag)
+    public function deleteEvent($calendar_url, $uid, $etag)
     {
         $http_response = $this->makeRequest(
             RequestFactory::createDeleteRequest
@@ -359,7 +359,7 @@ final class CalDavClient implements ICalDavClient
      * @param string $event_url
      * @return string
      */
-    function getEventVCardBy($event_url){
+    public function getEventVCardBy($event_url){
         $http_response = $this->makeRequest(
             RequestFactory::createGetRequest
             (
@@ -376,7 +376,7 @@ final class CalDavClient implements ICalDavClient
      * @param array $events_urls
      * @return ResourceCollectionResponse
      */
-    function getEventsBy($calendar_url, array $events_urls)
+    public function getEventsBy($calendar_url, array $events_urls)
     {
         $http_response = $this->makeRequest(
             RequestFactory::createReportRequest
@@ -399,7 +399,7 @@ final class CalDavClient implements ICalDavClient
      * @param CalendarQueryFilter $filter
      * @return ResourceCollectionResponse
      */
-    function getEventsByQuery($calendar_url, CalendarQueryFilter $filter)
+    public function getEventsByQuery($calendar_url, CalendarQueryFilter $filter)
     {
 
         $http_response = $this->makeRequest(

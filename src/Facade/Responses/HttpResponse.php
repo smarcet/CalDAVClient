@@ -66,5 +66,5 @@ abstract class HttpResponse
     /**
      * @return bool
      */
-    public abstract function isSuccessFull();
+    abstract public function isSuccessFull();
 }

@@ -22,14 +22,14 @@ final class CalendarSyncInfoResponse extends ResourceCollectionResponse
     /**
      * @return string|null
      */
-    function getSyncToken(){
+    public function getSyncToken(){
         return isset($this->content['sync-token'])? $this->content['sync-token'] : null;
     }
 
     /**
      * @return bool
      */
-    function hasAvailableChanges(){
+    public function hasAvailableChanges(){
         return count($this->responses) > 0;
     }
 
@@ -37,7 +37,7 @@ final class CalendarSyncInfoResponse extends ResourceCollectionResponse
     /**
      * @return ETagEntityResponse[]
      */
-    function getUpdates(){
+    public function getUpdates(){
         $res = [];
         foreach ($this->responses as $entity){
             if($entity->getStatus() != HttpResponse::HttpOKStatus) continue;
@@ -49,7 +49,7 @@ final class CalendarSyncInfoResponse extends ResourceCollectionResponse
     /**
      * @return ETagEntityResponse[]
      */
-    function getDeletes(){
+    public function getDeletes(){
         $res = [];
         foreach ($this->responses as $entity){
             if($entity->getStatus() != HttpResponse::HttpNotFoundStatus) continue;

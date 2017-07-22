@@ -45,7 +45,7 @@ abstract class AbstractCalDAVResponse extends HttpResponse
         parent::__construct($body, $code);
         $this->server_url = $server_url;
         if(!empty($this->body)) {
-            $this->xml     = simplexml_load_string($this->body);
+            $this->xml     =  simplexml_load_string($this->body, 'SimpleXMLElement', LIBXML_NOCDATA);
             if($this->xml === FALSE)
                 throw new XMLResponseParseException();
             $this->content = $this->toAssocArray($this->xml);
@@ -61,7 +61,7 @@ abstract class AbstractCalDAVResponse extends HttpResponse
         $this->content = $content;
     }
 
-    protected abstract function parse();
+    abstract protected function parse();
     /**
      * @param $xml
      * @return array

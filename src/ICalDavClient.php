@@ -37,30 +37,30 @@ interface ICalDavClient
      * @param string $server_url
      * @return void
      */
-    function setServerUrl($server_url);
+    public function setServerUrl($server_url);
 
     /**
      * @param string $username
      * @param string $password
      * @return void
      */
-    function setCredentials($username, $password);
+    public function setCredentials($username, $password);
 
     /**
      * @return bool
      */
-    function isValidServer();
+    public function isValidServer();
 
     /**
      * @return UserPrincipalResponse
      */
-    function getUserPrincipal();
+    public function getUserPrincipal();
 
     /**
      * @param string $principal_url
      * @return CalendarHomesResponse
      */
-    function getCalendarHome($principal_url);
+    public function getCalendarHome($principal_url);
 
     /**
      * @param string $calendar_home_set
@@ -68,19 +68,19 @@ interface ICalDavClient
      * @see https://tools.ietf.org/html/rfc4791#section-5.3.1
      * @return string|boolean
      */
-    function createCalendar($calendar_home_set, MakeCalendarRequestDTO $dto);
+    public function createCalendar($calendar_home_set, MakeCalendarRequestDTO $dto);
 
     /**
      * @param string $calendar_home_set_url
      * @return GetCalendarsResponse
      */
-    function getCalendars($calendar_home_set_url);
+    public function getCalendars($calendar_home_set_url);
 
     /**
      * @param string $calendar_url
      * @return GetCalendarResponse
      */
-    function getCalendar($calendar_url);
+    public function getCalendar($calendar_url);
 
     /**
      * @see https://tools.ietf.org/html/rfc6578
@@ -88,14 +88,14 @@ interface ICalDavClient
      * @param string $sync_token
      * @return CalendarSyncInfoResponse
      */
-    function getCalendarSyncInfo($calendar_url, $sync_token);
+    public function getCalendarSyncInfo($calendar_url, $sync_token);
 
     /**
      * @param string $calendar_url
      * @param EventRequestDTO $dto
      * @return EventCreatedResponse
      */
-    function createEvent($calendar_url, EventRequestDTO $dto);
+    public function createEvent($calendar_url, EventRequestDTO $dto);
 
     /**
      * @param string $calendar_url
@@ -103,7 +103,7 @@ interface ICalDavClient
      * @param string $etag
      * @return EventUpdatedResponse
      */
-    function updateEvent($calendar_url, EventRequestDTO $dto, $etag);
+    public function updateEvent($calendar_url, EventRequestDTO $dto, $etag);
 
     /**
      * @param string $calendar_url
@@ -111,26 +111,26 @@ interface ICalDavClient
      * @param string $etag
      * @return EventDeletedResponse
      */
-    function deleteEvent($calendar_url, $uid, $etag);
+    public function deleteEvent($calendar_url, $uid, $etag);
 
     /**
      * @param string $event_url
      * @return string
      */
-    function getEventVCardBy($event_url);
+    public function getEventVCardBy($event_url);
 
     /**
      * @param string $calendar_url
      * @param array $events_urls
      * @return ResourceCollectionResponse
      */
-    function getEventsBy($calendar_url, array $events_urls);
+    public function getEventsBy($calendar_url, array $events_urls);
 
     /**
      * @param string $calendar_url
      * @param CalendarQueryFilter $filter
      * @return ResourceCollectionResponse
      */
-    function getEventsByQuery($calendar_url, CalendarQueryFilter $filter);
+    public function getEventsByQuery($calendar_url, CalendarQueryFilter $filter);
 
 }
