@@ -11,9 +11,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
-use  CalDAVClient\Facade\CalDavClient;
-use CalDAVClient\Facade\Requests\MakeCalendarRequestDTO;
+use CalDAVClient\Facade\CalDavClient;
 use CalDAVClient\ICalDavClient;
+use CalDAVClient\Facade\Requests\EventRequestVO;
 /**
  * Class FacadeTest
  */
@@ -49,7 +49,7 @@ final class FacadeTest extends PHPUnit_Framework_TestCase
         $url    = $res->getPrincipalUrl();
 
         $this->assertTrue(!empty($url));
-
+        echo sprintf('principal url is %s', $url).PHP_EOL;
         return $url;
     }
 
@@ -60,19 +60,24 @@ final class FacadeTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue(!empty($url));
         $host = $res->getRealCalDAVHost();
+        echo sprintf('calendar home is %s', $url).PHP_EOL;
+        echo sprintf('host is %s', $host).PHP_EOL;
         return $url;
     }
 
     function testGetCalendars(){
         $calendar_home = $this->testCalendarHomes();
-
         $res   = self::$client->getCalendars($calendar_home);
-
+        $this->assertTrue($res->isSuccessFull());
+        $this->assertTrue(count($res->getResponses()) > 0);
         return $res;
     }
 
     function testGetCalendar(){
-        $res    = self::$client->getCalendar(getenv('CALDAV_SERVER_URL').'/8244464267/calendars/openstack-summit-sidney-2017/');
+        $res  = self::$client->getCalendar(getenv('CALDAV_SERVER_URL').'/8244464267/calendars/openstack-summit-sidney-2017/');
+        $this->assertTrue($res->isSuccessFull());
+        $this->assertTrue(!empty($res->getDisplayName()));
+        $this->assertTrue(!empty($res->getSyncToken()));
     }
 
     function testSyncCalendar(){
@@ -80,25 +85,29 @@ final class FacadeTest extends PHPUnit_Framework_TestCase
         $res    = self::$client->getCalendarSyncInfo(
             getenv('CALDAV_SERVER_URL').'/8244464267/calendars/openstack-summit-sidney-2017/',
             "FT=-@RU=8546e45e-a9f6-4f20-b6a2-7637f4783d8f@S=169");
+        $this->assertTrue($res->isSuccessFull());
+        $this->assertTrue(!empty($res->getSyncToken()));
     }
 
     function testCreateCalendar(){
 
         $res = self::$client->createCalendar(
             getenv('CALDAV_SERVER_URL').'/8244464267/calendars/',
-            new MakeCalendarRequestDTO(
+            new MakeCalendarRequesVO(
                 'openstack-summit-sidney-2017',
                 'OpenStack Sidney Summit Nov 2017',
                 'Calendar to hold Summit Events',
                 new DateTimeZone('Australia/Sydney')
             )
         );
+
+        $this->assertTrue(!empty($res));
     }
 
     function testCreateEvent(){
         $res = self::$client->createEvent(
             getenv('CALDAV_SERVER_URL').'/8244464267/calendars/openstack-summit-sidney-2017/',
-            new \CalDAVClient\Facade\Requests\EventRequestDTO(
+            new EventRequestVO(
                 'openstack-summit-sidney-2017',
                 'test event 4',
             'test event',
@@ -116,7 +125,7 @@ final class FacadeTest extends PHPUnit_Framework_TestCase
         $uid = 'ad281055dff9382ac152fb1e32581aab';
         $etag = "C=150@U=8546e45e-a9f6-4f20-b6a2-7637f4783d8f";
 
-        $dto =  new \CalDAVClient\Facade\Requests\EventRequestDTO(
+        $dto =  new EventRequestVO(
             'openstack-summit-sidney-2017',
             'test event 4 updated!!!!',
             'test event',
@@ -151,7 +160,9 @@ final class FacadeTest extends PHPUnit_Framework_TestCase
 
         $event_url = 'https://p01-caldav.icloud.com:443/8244464267/calendars/openstack-summit-sidney-2017/d7a2387264bfa1a619c37a593e94204a.ics';
 
-        $res = self::$client->getEventVCardBy($event_url);
+        $v_card = self::$client->getEventVCardBy($event_url);
+
+        $this->assertTrue(!empty($v_card));
     }
 
     function testGetEventsByUrl(){
@@ -161,5 +172,7 @@ final class FacadeTest extends PHPUnit_Framework_TestCase
 
         $res = self::$client->getEventsBy('https://p01-caldav.icloud.com:443/8244464267/calendars/openstack-summit-sidney-2017/',
             [$event_url, $event_url2]);
+
+        $this->assertTrue($res->isSuccessFull());
     }
 }

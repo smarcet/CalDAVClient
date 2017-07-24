@@ -20,18 +20,62 @@ use GuzzleHttp\Psr7\Request;
  */
 final class RequestFactory
 {
+
+    /**
+     * @param string $http_method
+     * @param array $params
+     * @return array
+     */
+    private static function createHeadersFor($http_method, array $params = []){
+        switch ($http_method){
+            case HttpMethods::PropFind:
+            case HttpMethods::Options:
+            case HttpMethods::Report:
+                return  [
+                    Headers::Depth        => $params[0],
+                    Headers::Prefer       => "return-minimal",
+                    Headers::ContentType  => ContentTypes::Xml
+                ];
+            break;
+            case HttpMethods::Delete:
+                return [
+                    Headers::IfMatch =>  $params[0],
+                ];
+            break;
+            case HttpMethods::MakeCalendar:
+
+                return [
+                    Headers::ContentType  => ContentTypes::Xml
+                ];
+            break;
+            case HttpMethods::Put:
+               $etag = $params[0];
+               if(empty($etag)){
+                   return [
+                       Headers::ContentType  => ContentTypes::Calendar,
+                       Headers::IfNotMatch   => '*',
+                   ];
+               }
+               return [
+                   Headers::ContentType  => ContentTypes::Calendar,
+                   Headers::IfMatch      => $etag
+               ];
+            break;
+        }
+        return [];
+    }
     /**
     * @param string $url
     * @param string $body
     * @param int $depth
     * @return Request
     */
-    static function createPropFindRequest($url , $body, $depth = 1){
-        return new Request('PROPFIND',  $url ,  [
-            'Depth'         => $depth,
-            "Prefer"        => "return-minimal",
-            "Content-Type"  => ContentTypes::ContentTypeXml
-        ],
+    public static function createPropFindRequest($url , $body, $depth = 1){
+        return new Request
+        (
+            HttpMethods::PropFind,
+            $url ,
+            self::createHeadersFor(HttpMethods::PropFind, [$depth]),
             $body
         );
     }
@@ -41,10 +85,12 @@ final class RequestFactory
      * @param string $body
      * @return Request
      */
-    static function createMakeCalendarRequest($url , $body){
-        return new Request('MKCALENDAR',  $url ,  [
-            "Content-Type"  => ContentTypes::ContentTypeXml
-        ],
+    public static function createMakeCalendarRequest($url , $body){
+        return new Request
+        (
+            HttpMethods::MakeCalendar,
+            $url,
+            self::createHeadersFor(HttpMethods::MakeCalendar),
             $body
         );
     }
@@ -54,12 +100,13 @@ final class RequestFactory
      * @param int $depth
      * @return Request
      */
-    static function createOptionsRequest($url, $depth = 1){
-        return new Request('OPTIONS',  $url ,  [
-            'Depth'         => $depth,
-            "Prefer"        => "return-minimal",
-            "Content-Type"  => ContentTypes::ContentTypeXml
-        ]);
+    public static function createOptionsRequest($url, $depth = 1){
+        return new Request
+        (
+            HttpMethods::Options,
+            $url,
+            self::createHeadersFor(HttpMethods::Options, [$depth])
+        );
     }
 
     /**
@@ -68,12 +115,12 @@ final class RequestFactory
      * @param int $depth
      * @return Request
      */
-    static function createReportRequest($url , $body, $depth = 1){
-        return new Request('REPORT',  $url ,  [
-            'Depth'         => $depth,
-            "Prefer"        => "return-minimal",
-            "Content-Type"  => ContentTypes::ContentTypeXml
-        ],
+    public static function createReportRequest($url , $body, $depth = 1){
+        return new Request
+        (
+            HttpMethods::Report,
+            $url,
+            self::createHeadersFor(HttpMethods::Report, [$depth]),
             $body
         );
     }
@@ -83,19 +130,26 @@ final class RequestFactory
      * @param string $etag
      * @return Request
      */
-    static function createDeleteRequest($url , $etag){
-        return new Request('DELETE',  $url ,  [
-            "If-Match"  => $etag
-        ]);
+    public static function createDeleteRequest($url , $etag){
+        return new Request
+        (
+            HttpMethods::Delete,
+            $url,
+            self::createHeadersFor(HttpMethods::Delete, [$etag])
+        );
     }
 
     /**
      * @param string $url
      * @return Request
      */
-    static function createGetRequest($url){
-        return new Request('GET',  $url ,  [
-        ]);
+    public static function createGetRequest($url){
+        return new Request
+        (
+            HttpMethods::Get,
+            $url,
+            self::createHeadersFor(HttpMethods::Get)
+        );
     }
 
     /**
@@ -104,19 +158,14 @@ final class RequestFactory
      * @param string $etag
      * @return Request
      */
-    static function createPutRequest($url, $body, $etag = null){
-        $headers = [
-            "Content-Type"  => ContentTypes::ContentTypeCalendar,
-        ];
-
-        if(empty($etag)){
-            $headers["If-None-Match"] = "*";
-        }
-        else{
-            $headers["If-Match"] = $etag;
-        }
-
-        return new Request('PUT',  $url, $headers, $body);
+     public static function createPutRequest($url, $body, $etag = null){
+        return new Request
+        (
+            HttpMethods::Put,
+            $url,
+            self::createHeadersFor(HttpMethods::Put, [$etag]),
+            $body
+        );
     }
 
 }

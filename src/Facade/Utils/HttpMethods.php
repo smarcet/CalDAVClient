@@ -12,13 +12,19 @@
  * limitations under the License.
  **/
 
+
+
 /**
- * Class ContentTypes
+ * Class HttpMethods
  * @package CalDAVClient\Facade\Utils
  */
-final class ContentTypes
+final class HttpMethods
 {
-    const Xml       = "application/xml; charset=utf-8";
-
-    const Calendar  = 'text/calendar; charset=utf-8';
+    const Get          = 'GET';
+    const Put          = 'PUT';
+    const Report       = 'REPORT';
+    const PropFind     = 'PROPFIND';
+    const MakeCalendar = 'MKCALENDAR';
+    const Delete       = 'DELETE';
+    const Options      = 'OPTIONS';
 }

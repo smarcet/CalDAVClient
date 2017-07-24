@@ -13,8 +13,8 @@
  **/
 
 use CalDAVClient\Facade\Requests\CalendarQueryFilter;
-use CalDAVClient\Facade\Requests\EventRequestDTO;
-use CalDAVClient\Facade\Requests\MakeCalendarRequestDTO;
+use CalDAVClient\Facade\Requests\EventRequestVO;
+use CalDAVClient\Facade\Requests\MakeCalendarRequestVO;
 use CalDAVClient\Facade\Responses\CalendarHomesResponse;
 use CalDAVClient\Facade\Responses\CalendarSyncInfoResponse;
 use CalDAVClient\Facade\Responses\EventCreatedResponse;
@@ -64,11 +64,11 @@ interface ICalDavClient
 
     /**
      * @param string $calendar_home_set
-     * @param MakeCalendarRequestDTO $dto
+     * @param MakeCalendarRequestVO $vo
      * @see https://tools.ietf.org/html/rfc4791#section-5.3.1
      * @return string|boolean
      */
-    public function createCalendar($calendar_home_set, MakeCalendarRequestDTO $dto);
+    public function createCalendar($calendar_home_set, MakeCalendarRequestVO $vo);
 
     /**
      * @param string $calendar_home_set_url
@@ -92,18 +92,18 @@ interface ICalDavClient
 
     /**
      * @param string $calendar_url
-     * @param EventRequestDTO $dto
+     * @param EventRequestVO $vo
      * @return EventCreatedResponse
      */
-    public function createEvent($calendar_url, EventRequestDTO $dto);
+    public function createEvent($calendar_url, EventRequestVO $vo);
 
     /**
      * @param string $calendar_url
-     * @param EventRequestDTO $dto
+     * @param EventRequestVO $vo
      * @param string $etag
      * @return EventUpdatedResponse
      */
-    public function updateEvent($calendar_url, EventRequestDTO $dto, $etag);
+    public function updateEvent($calendar_url, EventRequestVO $vo, $etag);
 
     /**
      * @param string $calendar_url

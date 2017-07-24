@@ -15,10 +15,10 @@
 use DateTimeZone;
 
 /**
- * Class MakeCalendarRequestDTO
+ * Class MakeCalendarRequestVO
  * @package CalDAVClient\Facade\Requests
  */
-final class MakeCalendarRequestDTO
+final class MakeCalendarRequestVO
 {
     /**
      * @var DateTimeZone

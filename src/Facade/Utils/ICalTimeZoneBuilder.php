@@ -17,6 +17,9 @@ use DateTime;
 use DateInterval;
 use Eluceo\iCal\Component\Timezone;
 use Eluceo\iCal\Component\Calendar;
+use Eluceo\iCal\Component\TimezoneRule;
+use Eluceo\iCal\Property\Event\RecurrenceRule;
+
 /**
  * Class ICalTimeZoneBuilder
  * @package CalDAVClient\Facade\Utils
@@ -26,21 +29,74 @@ final class ICalTimeZoneBuilder
 
     /**
      * @param DateTimeZone $time_zone
+     * @return array
+     */
+    private static function calculateTimeRangeForTransitions(DateTimeZone $time_zone){
+
+        $now           = new  DateTime('now', $time_zone);
+        $year          = $now->format('Y');
+        return [new DateTime('1/1/'.$year, $time_zone),  new DateTime('1/1/'.($year + 1), $time_zone)];
+    }
+
+    /**
+     * @param array $trans
+     * @param int $former_offset
+     * @return DateTime
+     */
+    private static function convertStartDateFromUTC2Local(array $trans, $former_offset){
+        $dt     = new DateTime($trans['time'], new DateTimeZone('UTC'));
+        $hours  = abs($former_offset);
+        // START TIME IS ON UTC and should be converted to local using former offset
+        if($former_offset >= 0 )
+            $dt->add(new DateInterval("PT{$hours}H"));
+        else
+            $dt->sub(new DateInterval("PT{$hours}H"));
+
+        return $dt;
+    }
+
+    /**
+     * @param DateTime $dt
+     * @return RecurrenceRule
+     */
+    private static function calculateRecurrenceRule(DateTime $dt){
+        $r_rule        = new RecurrenceRule();
+        $r_rule->setFreq(RecurrenceRule::FREQ_YEARLY);
+        $r_rule->setByMonth(intval($dt->format('m')));
+        $r_rule->setByDay
+        (
+            self::translate2ByDay($dt)
+        );
+        return $r_rule;
+    }
+
+    /**
+     * @param $offset
+     * @return string
+     */
+    private static function calculateOffsetFrom($offset){
+        return sprintf('%s%02d%02d', $offset >= 0 ? '+' : '-', abs($offset), abs(($offset - floor($offset)) * 60));
+    }
+
+    /**
+     * @param  $offset
+     * @return string
+     */
+    private static function calculateOffsetTo($offset){
+        return sprintf('%s%02d%02d', $offset >= 0 ? '+' : '-', abs($offset), abs(($offset - floor($offset)) * 60));
+    }
+    /**
+     * @param DateTimeZone $time_zone
      * @param string $calendar_prod_id
      * @param bool $with_calendar_envelope
      * @return Calendar|Timezone
      */
     public static function build(DateTimeZone $time_zone, $calendar_prod_id, $with_calendar_envelope = true){
 
-        $now           = new  DateTime('now', $time_zone);
-        $year          = $now->format('Y');
-        $startOfYear   = new \DateTime('1/1/'.$year, $time_zone);
-        $startOfNext   = new \DateTime('1/1/'.($year + 1), $time_zone);
         // get all transitions for one current year and next
-        $transitions   = $time_zone->getTransitions($startOfYear->getTimestamp(), $startOfNext->getTimestamp());
+        list($start_range, $end_range) = self::calculateTimeRangeForTransitions($time_zone);
+        $transitions   = $time_zone->getTransitions($start_range->getTimestamp(), $end_range->getTimestamp());
         $vTimezone     = new Timezone($time_zone->getName());
-        $std           = null;
-        $dst           = null;
         $former_offset = null;
 
         foreach ($transitions as $i => $trans) {
@@ -55,27 +111,19 @@ final class ICalTimeZoneBuilder
 
             // daylight saving time definition
             if ($trans['isdst']) {
-                $dst =  new \Eluceo\iCal\Component\TimezoneRule(\Eluceo\iCal\Component\TimezoneRule::TYPE_DAYLIGHT);
-                $current_time_zone_rule = $dst;
+                $current_time_zone_rule = new TimezoneRule(TimezoneRule::TYPE_DAYLIGHT);;
             }
             // standard time definition
             else {
-                $std = new \Eluceo\iCal\Component\TimezoneRule(\Eluceo\iCal\Component\TimezoneRule::TYPE_STANDARD);
-                $current_time_zone_rule = $std;
+                $current_time_zone_rule = new TimezoneRule(TimezoneRule::TYPE_STANDARD);;
             }
 
             if ($current_time_zone_rule) {
-                $dt     = new DateTime($trans['time'], new DateTimeZone('UTC'));
                 $offset = $trans['offset'] / 3600;
-                // DATETIME S
-                $hours  = abs($former_offset);
-                if($former_offset >= 0 )
-                    $dt->add(new DateInterval("PT{$hours}H"));
-                else
-                    $dt->sub(new DateInterval("PT{$hours}H"));
+                $dt     = self::convertStartDateFromUTC2Local($trans, $former_offset);
                 $current_time_zone_rule->setDtStart($dt);
-                $current_time_zone_rule->setTzOffsetFrom(sprintf('%s%02d%02d', $former_offset >= 0 ? '+' : '-', abs($former_offset), abs(($former_offset - floor($former_offset)) * 60)));
-                $current_time_zone_rule->setTzOffsetTo(sprintf('%s%02d%02d', $offset >= 0 ? '+' : '-', abs($offset), abs(($offset - floor($offset)) * 60)));
+                $current_time_zone_rule->setTzOffsetFrom(self::calculateOffsetFrom($former_offset));
+                $current_time_zone_rule->setTzOffsetTo(self::calculateOffsetTo($offset));
 
                 // add abbreviated timezone name if available
                 if (!empty($trans['abbr'])) {
@@ -83,14 +131,7 @@ final class ICalTimeZoneBuilder
                 }
 
                 $former_offset = $offset;
-                $r_rule = new \Eluceo\iCal\Property\Event\RecurrenceRule();
-                $r_rule->setFreq(\Eluceo\iCal\Property\Event\RecurrenceRule::FREQ_YEARLY);
-                $r_rule->setByMonth(intval($dt->format('m')));
-                $r_rule->setByDay
-                (
-                    self::translate2ByDay($dt)
-                );
-                $current_time_zone_rule->setRecurrenceRule($r_rule);
+                $current_time_zone_rule->setRecurrenceRule(self::calculateRecurrenceRule($dt));
                 $vTimezone->addComponent($current_time_zone_rule);
             }
 

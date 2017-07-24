@@ -13,12 +13,14 @@
  **/
 
 /**
- * Class ContentTypes
+ * Class Headers
  * @package CalDAVClient\Facade\Utils
  */
-final class ContentTypes
+final class Headers
 {
-    const Xml       = "application/xml; charset=utf-8";
-
-    const Calendar  = 'text/calendar; charset=utf-8';
+    const Depth       = 'Depth';
+    const Prefer      = 'Prefer';
+    const ContentType = 'Content-Type';
+    const IfMatch     = 'If-Match';
+    const IfNotMatch  = 'If-None-Match"';
 }

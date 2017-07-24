@@ -22,17 +22,17 @@ use Sabre\Xml\Service;
 final class CalendarCreateRequest implements IAbstractWebDAVRequest
 {
     /**
-     * @var MakeCalendarRequestDTO
+     * @var MakeCalendarRequestVO
      */
-    private $dto;
+    private $vo;
 
     /**
      * CalendarCreateRequest constructor.
-     * @param MakeCalendarRequestDTO $dto
+     * @param MakeCalendarRequestVO $vo
      */
-    public function __construct(MakeCalendarRequestDTO $dto)
+    public function __construct(MakeCalendarRequestVO $vo)
     {
-        $this->dto = $dto;
+        $this->vo = $vo;
     }
 
     /**
@@ -50,7 +50,7 @@ final class CalendarCreateRequest implements IAbstractWebDAVRequest
             [
                 'name'       =>'{DAV:}displayname',
                 'attributes' => ['xml:lang' => 'eng'],
-                'value'      =>  $this->dto->getDisplayName(),
+                'value'      =>  $this->vo->getDisplayName(),
             ],
 
             '{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set' => [
@@ -63,14 +63,14 @@ final class CalendarCreateRequest implements IAbstractWebDAVRequest
             (
                 ICalTimeZoneBuilder::build
                 (
-                    $this->dto->getTimezone(),
-                    $this->dto->getDisplayName()
+                    $this->vo->getTimezone(),
+                    $this->vo->getDisplayName()
                 )->render()
             )
         ];
 
-        if(!empty($this->dto->getDescription()))
-            $props['{urn:ietf:params:xml:ns:caldav}calendar-description'] = $this->dto->getDescription();
+        if(!empty($this->vo->getDescription()))
+            $props['{urn:ietf:params:xml:ns:caldav}calendar-description'] = $this->vo->getDescription();
 
         return $service->write('{urn:ietf:params:xml:ns:caldav}mkcalendar',
             [

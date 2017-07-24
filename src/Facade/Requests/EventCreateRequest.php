@@ -23,17 +23,17 @@ use DateTime;
 class EventCreateRequest implements IAbstractWebDAVRequest
 {
     /**
-     * @var EventRequestDTO
+     * @var EventRequestVO
      */
-    private $dto;
+    private $vo;
 
     /**
      * EventCreateRequest constructor.
-     * @param EventRequestDTO $dto
+     * @param EventRequestVO $vo
      */
-    public function __construct(EventRequestDTO $dto)
+    public function __construct(EventRequestVO $vo)
     {
-        $this->dto = $dto;
+        $this->vo = $vo;
     }
 
     /**
@@ -42,20 +42,20 @@ class EventCreateRequest implements IAbstractWebDAVRequest
     public function getContent()
     {
 
-        $time_zone        = $this->dto->getTimeZone();
-        $calendar         = ICalTimeZoneBuilder::build($time_zone, $this->dto->getProdId());
-        $local_start_time = new DateTime($this->dto->getStartTime()->format('Y-m-d H:i:s'), $time_zone);
-        $local_end_time   = new DateTime($this->dto->getEndTime()->format('Y-m-d H:i:s'), $time_zone);
-        $event            = new Event($this->dto->getUID());
+        $time_zone        = $this->vo->getTimeZone();
+        $calendar         = ICalTimeZoneBuilder::build($time_zone, $this->vo->getProdId());
+        $local_start_time = new DateTime($this->vo->getStartTime()->format('Y-m-d H:i:s'), $time_zone);
+        $local_end_time   = new DateTime($this->vo->getEndTime()->format('Y-m-d H:i:s'), $time_zone);
+        $event            = new Event($this->vo->getUID());
 
         $event
             ->setCreated(new DateTime())
             ->setDtStart($local_start_time)
             ->setDtEnd($local_end_time)
             ->setNoTime(false)
-            ->setSummary($this->dto->getTitle())
-            ->setDescription(strip_tags($this->dto->getDescription()))
-            ->setDescriptionHTML($this->dto->getDescription());
+            ->setSummary($this->vo->getTitle())
+            ->setDescription(strip_tags($this->vo->getDescription()))
+            ->setDescriptionHTML($this->vo->getDescription());
 
         if($time_zone->getName() == 'UTC'){
             $event->setUseUtc(true)
@@ -66,9 +66,9 @@ class EventCreateRequest implements IAbstractWebDAVRequest
                 ->setUseTimezone(true);
         }
 
-        if(!empty($this->dto->getLocationTitle())){
-            $geo = sprintf("%s;%s", $this->dto->getLocationLat(), $this->dto->getLocationLng());
-            $event->setLocation($this->dto->getLocationTitle(), $this->dto->getLocationTitle(), $geo);
+        if(!empty($this->vo->getLocationTitle())){
+            $geo = sprintf("%s;%s", $this->vo->getLocationLat(), $this->vo->getLocationLng());
+            $event->setLocation($this->vo->getLocationTitle(), $this->vo->getLocationTitle(), $geo);
         }
 
         $calendar->addComponent($event);

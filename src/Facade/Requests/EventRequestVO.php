@@ -16,10 +16,10 @@ use DateTime;
 use DateTimeZone;
 
 /**
- * Class EventRequestDTO
+ * Class EventRequestVO
  * @package CalDAVClient\Facade\Requests
  */
-final class EventRequestDTO
+final class EventRequestVO
 {
     /**
      * @var string
@@ -121,7 +121,7 @@ final class EventRequestDTO
         $this->location_lat    = $location_lat;
         $this->location_lng    = $location_lng;
         $this->time_zone       = $time_zone;
-        if(is_null( $this->time_zone)){
+        if(is_null($this->time_zone)){
             $this->time_zone = new DateTimeZone('UTC');
         }
     }
