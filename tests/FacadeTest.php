@@ -166,12 +166,10 @@ final class FacadeTest extends PHPUnit_Framework_TestCase
     }
 
     function testGetEventsByUrl(){
-        $event_url  = '/8244464267/calendars/openstack-summit-sidney-2017/d7a2387264bfa1a619c37a593e94204a.ics';
-        $event_url2 = '/8244464267/calendars/openstack-summit-sidney-2017/8b91154e5cc76819a473de1a8652cc24.ics';
-
+        $event_url  = '/8244464267/calendars/openstack-summit-sidney-2017/0df083912b476631bf677c140ad4740b.ics';
 
         $res = self::$client->getEventsBy('https://p01-caldav.icloud.com:443/8244464267/calendars/openstack-summit-sidney-2017/',
-            [$event_url, $event_url2]);
+            [$event_url]);
 
         $this->assertTrue($res->isSuccessFull());
     }

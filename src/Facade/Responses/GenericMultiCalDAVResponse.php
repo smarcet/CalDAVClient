@@ -25,8 +25,18 @@ class GenericMultiCalDAVResponse extends AbstractCalDAVResponse
 
     protected function parse()
     {
-        if(isset($this->content['response']) && !isset($this->content['response']['propstat']) && count($this->content['response'] > 0)){
-            foreach($this->content['response'] as $val){
+        if(isset($this->content['response'])){
+
+            if(isset($this->content['response']['propstat'])) {
+                // its a collection with one single element
+                $single_resource = $this->buildSingleResponse();
+                $single_resource->setContent(['response' => $this->content['response']]);
+                $single_resource->parse();
+                $this->responses[] = $single_resource;
+                return;
+            }
+
+            foreach ($this->content['response'] as $val) {
                 $single_resource = $this->buildSingleResponse();
                 $single_resource->setContent(['response' => $val]);
                 $single_resource->parse();
