@@ -12,18 +12,16 @@
  * limitations under the License.
  **/
 
-
 /**
- * Class ResourceCollectionResponse
+ * Class VCardEntityResponse
  * @package CalDAVClient\Facade\Responses
  */
-class ResourceCollectionResponse extends GenericMultiCalDAVResponse
+class VCardEntityResponse extends ETagEntityResponse
 {
     /**
-     * @return GenericSinglePROPFINDCalDAVResponse
+     * @return string
      */
-    protected function buildSingleResponse()
-    {
-        return new VCardEntityResponse();
+    public function getVCard(){
+        return isset($this->found_props['calendar-data']) ? $this->found_props['calendar-data'] : null;
     }
 }
