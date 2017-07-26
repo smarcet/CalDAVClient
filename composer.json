@@ -1,6 +1,10 @@
 {
     "name": "smarcet/caldavclient",
+    "homepage": "https://github.com/smarcet",
     "description": "CALDAV Client for PHP",
+    "keywords": [
+       "CalDav", "Calendar", "synchronization", "iCloud"
+    ],
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -21,5 +25,6 @@
         "psr-4": {
             "CalDAVClient\\": "src/"
         }
-    }
+    },
+    "minimum-stability": "dev"
 }
