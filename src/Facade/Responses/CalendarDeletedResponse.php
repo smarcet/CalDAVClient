@@ -1,4 +1,4 @@
-<?php namespace CalDAVClient\Facade\Requests;
+<?php namespace CalDAVClient\Facade\Responses;
 /**
  * Copyright 2017 OpenStack Foundation
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,23 +13,15 @@
  **/
 
 /**
- * Class GetCalendarRequest
- * @package CalDAVClient\Facade\Requests
+ * Class CalendarDeletedResponse
+ * @package CalDAVClient\Facade\Responses
  */
-final class GetCalendarRequest extends AbstractPropFindWebDAVRequest
+final class CalendarDeletedResponse extends HttpResponse
 {
-
     /**
-     * @see https://tools.ietf.org/html/rfc6578 for sync-token
-     * GetCalendarRequest constructor.
+     * @return bool
      */
-    public function __construct(){
-        $this->properties = [
-            '{DAV:}displayname',
-            '{DAV:}resourcetype',
-            '{DAV:}sync-token',
-            '{DAV:}getetag',
-            '{http://calendarserver.org/ns/:}getctag',
-        ];
+    public function isSuccessFull(){
+        return $this->code == HttpResponse::HttpCodeNoContent;
     }
 }

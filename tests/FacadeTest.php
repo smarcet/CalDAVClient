@@ -14,6 +14,7 @@
 use CalDAVClient\Facade\CalDavClient;
 use CalDAVClient\ICalDavClient;
 use CalDAVClient\Facade\Requests\EventRequestVO;
+use CalDAVClient\Facade\Requests\MakeCalendarRequestVO;
 /**
  * Class FacadeTest
  */
@@ -93,12 +94,26 @@ final class FacadeTest extends PHPUnit_Framework_TestCase
 
         $res = self::$client->createCalendar(
             getenv('CALDAV_SERVER_URL').'/8244464267/calendars/',
-            new MakeCalendarRequesVO(
+            new MakeCalendarRequestVO(
                 'openstack-summit-sidney-2017',
                 'OpenStack Sidney Summit Nov 2017',
                 'Calendar to hold Summit Events',
                 new DateTimeZone('Australia/Sydney')
             )
+        );
+
+        $this->assertTrue(!empty($res));
+    }
+
+    function testDeleteCalendar(){
+
+        $calendar_url =  'https://p01-caldav.icloud.com:443/8244464267/calendars/openstack-summit-sidney-2017';
+        $res  = self::$client->getCalendar($calendar_url);
+
+        $res = self::$client->deleteCalendar
+        (
+            $calendar_url,
+            ""
         );
 
         $this->assertTrue(!empty($res));

@@ -38,9 +38,12 @@ final class RequestFactory
                 ];
             break;
             case HttpMethods::Delete:
+                $etag = $params[0];
+                if(!empty($etag))
                 return [
                     Headers::IfMatch =>  $params[0],
                 ];
+                return [];
             break;
             case HttpMethods::MakeCalendar:
 

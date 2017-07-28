@@ -15,6 +15,7 @@
 use CalDAVClient\Facade\Requests\CalendarQueryFilter;
 use CalDAVClient\Facade\Requests\EventRequestVO;
 use CalDAVClient\Facade\Requests\MakeCalendarRequestVO;
+use CalDAVClient\Facade\Responses\CalendarDeletedResponse;
 use CalDAVClient\Facade\Responses\CalendarHomesResponse;
 use CalDAVClient\Facade\Responses\CalendarSyncInfoResponse;
 use CalDAVClient\Facade\Responses\EventCreatedResponse;
@@ -69,6 +70,13 @@ interface ICalDavClient
      * @return string|boolean
      */
     public function createCalendar($calendar_home_set, MakeCalendarRequestVO $vo);
+
+    /**
+     * @param string $calendar_url
+     * @param string|null $etag
+     * @return CalendarDeletedResponse
+     */
+    public function deleteCalendar($calendar_url, $etag = null);
 
     /**
      * @param string $calendar_home_set_url

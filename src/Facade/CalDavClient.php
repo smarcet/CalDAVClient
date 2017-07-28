@@ -18,6 +18,7 @@ use CalDAVClient\Facade\Requests\CalDAVRequestFactory;
 use CalDAVClient\Facade\Requests\CalendarQueryFilter;
 use CalDAVClient\Facade\Requests\EventRequestVO;
 use CalDAVClient\Facade\Requests\MakeCalendarRequestVO;
+use CalDAVClient\Facade\Responses\CalendarDeletedResponse;
 use CalDAVClient\Facade\Responses\CalendarHomesResponse;
 use CalDAVClient\Facade\Responses\CalendarSyncInfoResponse;
 use CalDAVClient\Facade\Responses\EventCreatedResponse;
@@ -415,6 +416,27 @@ final class CalDavClient implements ICalDavClient
             $this->server_url,
             (string)$http_response->getBody(),
             $http_response->getStatusCode()
+        );
+    }
+
+    /**
+     * @param string $calendar_url
+     * @param string|null $etag
+     * @return CalendarDeletedResponse
+     */
+    public function deleteCalendar($calendar_url, $etag = null)
+    {
+        $http_response = $this->makeRequest(
+            RequestFactory::createDeleteRequest
+            (
+                $calendar_url,
+                $etag
+            )
+        );
+
+        return new CalendarDeletedResponse
+        (
+            $this->server_url, (string)$http_response->getBody(), $http_response->getStatusCode()
         );
     }
 }
