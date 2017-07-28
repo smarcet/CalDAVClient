@@ -36,21 +36,18 @@ final class RequestFactory
                     Headers::Prefer       => "return-minimal",
                     Headers::ContentType  => ContentTypes::Xml
                 ];
-            break;
             case HttpMethods::Delete:
                 $etag = $params[0];
-                if(!empty($etag))
-                return [
-                    Headers::IfMatch =>  $params[0],
-                ];
+                if(!empty($etag)) {
+                    return [
+                        Headers::IfMatch => $etag,
+                    ];
+                }
                 return [];
-            break;
             case HttpMethods::MakeCalendar:
-
                 return [
                     Headers::ContentType  => ContentTypes::Xml
                 ];
-            break;
             case HttpMethods::Put:
                $etag = $params[0];
                if(empty($etag)){
@@ -63,7 +60,6 @@ final class RequestFactory
                    Headers::ContentType  => ContentTypes::Calendar,
                    Headers::IfMatch      => $etag
                ];
-            break;
         }
         return [];
     }
