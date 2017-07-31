@@ -21,6 +21,11 @@ use DateTimeZone;
 final class MakeCalendarRequestVO
 {
     /**
+     * @var string
+     */
+    private $uid;
+
+    /**
      * @var DateTimeZone
      */
     private $timezone;
@@ -53,10 +58,26 @@ final class MakeCalendarRequestVO
         $this->display_name  = $display_name;
         $this->description   = $description;
         $this->timezone      = $timezone;
+        $this->uid           = md5(uniqid(mt_rand(), true));
 
         if(is_null($this->timezone)){
             $this->timezone = new DateTimeZone('UTC');
         }
+    }
+
+    /**
+     * @param string $uid
+     */
+    public function setUID($uid){
+        $this->uid = $uid;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUID()
+    {
+        return $this->uid;
     }
 
     /**
