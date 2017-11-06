@@ -143,7 +143,7 @@ final class CalDavClient implements ICalDavClient
                 case 403:
                     throw new ForbiddenException();
                 default:
-                    throw new ServerErrorException();
+                    throw new ServerErrorException($ex->getMessage(), $ex->getCode());
                     break;
             }
         }

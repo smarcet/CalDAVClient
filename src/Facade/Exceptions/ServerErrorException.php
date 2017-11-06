@@ -11,12 +11,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
+use RuntimeException;
+use Throwable;
 
 /**
  * Class ServerErrorException
  * @package Facade\Exceptions
  */
-final class ServerErrorException extends \RuntimeException
+final class ServerErrorException extends RuntimeException
 {
-
+    public function __construct($message = "", $code = 0, Throwable $previous = null)
+    {
+        parent::__construct($message, $code, $previous);
+    }
 }
