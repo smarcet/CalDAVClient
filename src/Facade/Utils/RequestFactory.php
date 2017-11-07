@@ -50,16 +50,12 @@ final class RequestFactory
                 ];
             case HttpMethods::Put:
                $etag = $params[0];
-               if(empty($etag)){
+               if(!empty($etag)){
                    return [
                        Headers::ContentType  => ContentTypes::Calendar,
-                       Headers::IfNotMatch   => '*',
+                       Headers::IfMatch      => $etag
                    ];
                }
-               return [
-                   Headers::ContentType  => ContentTypes::Calendar,
-                   Headers::IfMatch      => $etag
-               ];
         }
         return [];
     }
