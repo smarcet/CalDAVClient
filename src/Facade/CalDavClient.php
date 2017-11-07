@@ -313,7 +313,7 @@ final class CalDavClient implements ICalDavClient
      * @param string $etag
      * @return EventUpdatedResponse
      */
-    public function updateEvent($calendar_url, EventRequestVO $vo, $etag)
+    public function updateEvent($calendar_url, EventRequestVO $vo, $etag = null)
     {
         $uid           = $vo->getUID();
         $resource_url  = $calendar_url.$uid.self::SchedulingInformationSuffix;
@@ -342,7 +342,7 @@ final class CalDavClient implements ICalDavClient
      * @param string $etag
      * @return EventDeletedResponse
      */
-    public function deleteEvent($calendar_url, $uid, $etag)
+    public function deleteEvent($calendar_url, $uid, $etag = null)
     {
         $http_response = $this->makeRequest(
             RequestFactory::createDeleteRequest
