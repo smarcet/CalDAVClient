@@ -354,7 +354,7 @@ final class CalDavClient implements ICalDavClient
 
         return new EventDeletedResponse
         (
-            $this->server_url, (string)$http_response->getBody(), $http_response->getStatusCode()
+            (string)$http_response->getBody(), $http_response->getStatusCode()
         );
     }
 

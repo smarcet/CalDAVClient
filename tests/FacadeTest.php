@@ -121,7 +121,7 @@ final class FacadeTest extends PHPUnit_Framework_TestCase
 
     function testCreateEvent(){
         $res = self::$client->createEvent(
-            getenv('CALDAV_SERVER_URL').'/8244464267/calendars/openstack-summit-sidney-2017/',
+            getenv('CALDAV_SERVER_URL').'/8244464267/calendars/0f9ba5e9072576c6fab990b8f813b4e0/',
             new EventRequestVO(
                 'openstack-summit-sidney-2017',
                 'test event 4',
@@ -137,35 +137,31 @@ final class FacadeTest extends PHPUnit_Framework_TestCase
     }
 
     function testUpdateEvent(){
-        $uid = 'ad281055dff9382ac152fb1e32581aab';
-        $etag = "C=150@U=8546e45e-a9f6-4f20-b6a2-7637f4783d8f";
+        $uid = 'ad82cdfe9da1d7b8c840c3acfa65db18';
+        //$etag = "C=150@U=8546e45e-a9f6-4f20-b6a2-7637f4783d8f";
 
         $dto =  new EventRequestVO(
-            'openstack-summit-sidney-2017',
-            'test event 4 updated!!!!',
-            'test event',
-            'test event',
-            new DateTime('2017-10-01 09:00:00'),
-            new DateTime('2017-10-01 10:45:00'),
+            '0f9ba5e9072576c6fab990b8f813b4e0',
+            'test event 4 updated 2!!!!',
+            'test event updated' ,
+            'test event update',
+            new DateTime('2017-11-01 09:00:00'),
+            new DateTime('2017-11-01 10:50:00'),
             new DateTimeZone('Australia/Sydney')
         );
         $dto->setUID($uid);
-        $res = self::$client->updateEvent(getenv('CALDAV_SERVER_URL').'/8244464267/calendars/openstack-summit-sidney-2017/',
-            $dto,
-            $etag
+        $res = self::$client->updateEvent(getenv('CALDAV_SERVER_URL').'/8244464267/calendars/0f9ba5e9072576c6fab990b8f813b4e0/',
+            $dto
         );
 
         $this->assertTrue($res->isSuccessFull());
     }
 
     function testDeleteEvent(){
-        $uid  = '793F69DB-8CFB-4B9F-A646-5DDB4BEABE67';
-        $etag = "FT=-@RU=8546e45e-a9f6-4f20-b6a2-7637f4783d8f@S=169";
+        $uid  = 'd738bd4a675f4b60cf664b88ce7f0659';
 
-
-        $res = self::$client->deleteEvent(getenv('CALDAV_SERVER_URL').'/8244464267/calendars/openstack-summit-sidney-2017/',
-            $uid,
-            $etag
+        $res = self::$client->deleteEvent(getenv('CALDAV_SERVER_URL').'/8244464267/calendars/0f9ba5e9072576c6fab990b8f813b4e0/',
+            $uid
         );
 
         $this->assertTrue($res->isSuccessFull());
