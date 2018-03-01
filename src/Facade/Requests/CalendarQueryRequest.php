@@ -34,6 +34,15 @@ class CalendarQueryRequest implements IAbstractWebDAVRequest
      */
     protected $filter;
 
+    protected function formatTimestamp($datetime) {
+        // Make a copy of the date, and convert it to GMT to accommodate
+        // CalDAV's date & time formatting requirements
+        $clone = clone $datetime;
+        $clone->setTimezone(new \DateTimeZone("GMT"));
+
+        return $clone->format('Ymd\THis\Z'); // 'Z' means: GMT time
+    }
+
     /**
      * @return string
      */
@@ -55,6 +64,29 @@ class CalendarQueryRequest implements IAbstractWebDAVRequest
 
         if($this->filter->useGetCalendarData()){
             $props['{urn:ietf:params:xml:ns:caldav}calendar-data'] = '';
+        }
+
+        if ($this->filter->getFrom() || $this->filter->getTo()) {
+            $date_range = [];
+            if ($this->filter->getFrom()) {
+                $date_range['start'] = $this->formatTimestamp($this->filter->getFrom());
+            }
+            if ($this->filter->getTo()) {
+                $date_range['end'] = $this->formatTimestamp($this->filter->getTo());
+            }
+
+            $filter[] = [
+                'name'       => '{urn:ietf:params:xml:ns:caldav}comp-filter',
+                'attributes' => ['name' => 'VCALENDAR'],
+                'value'      => [
+                    'name'       => '{urn:ietf:params:xml:ns:caldav}comp-filter',
+                    'attributes' => ['name' => 'VEVENT'],
+                    'value'      => [
+                        'name'       => '{urn:ietf:params:xml:ns:caldav}time-range',
+                        'attributes' => $date_range
+                    ]
+                ]
+            ];
         }
 
         $nodes =  [
