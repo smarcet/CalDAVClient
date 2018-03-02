@@ -13,17 +13,16 @@
  **/
 
 /**
- * Class UserPrincipalResponse
+ * Class UserPrincipalSingleResponse
  * @package CalDAVClient\Facade\Responses
  */
-final class UserPrincipalResponse extends GenericMultiCalDAVResponse
+final class UserPrincipalSingleResponse extends GenericSinglePROPFINDCalDAVResponse
 {
-
     /**
-     * @return GenericSinglePROPFINDCalDAVResponse
+     * @return string
      */
-    protected function buildSingleResponse()
-    {
-        return new UserPrincipalSingleResponse();
+    public function getPrincipalUrl() {
+        return isset($this->found_props['current-user-principal']) &&  isset($this->found_props['current-user-principal']['href']) ?
+            $this->server_url.$this->found_props['current-user-principal']['href'] : null;
     }
 }
