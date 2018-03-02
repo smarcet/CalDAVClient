@@ -21,7 +21,7 @@ final class GetCalendarsRequest extends AbstractPropFindWebDAVRequest
         $this->properties = [
             '{DAV:}resourcetype',
             '{DAV:}displayname',
-            '{http://calendarserver.org/ns/:}getctag',
+            '{http://calendarserver.org/ns/}getctag',
             '{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set',
         ];
     }

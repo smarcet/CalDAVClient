@@ -33,7 +33,7 @@ abstract class AbstractPropFindWebDAVRequest implements IAbstractWebDAVRequest
         $service->namespaceMap = [
             'DAV:'                           => 'D',
             'urn:ietf:params:xml:ns:caldav'  => 'C',
-            'http://calendarserver.org/ns/:' => 'CS',
+            'http://calendarserver.org/ns/'  => 'CS',
         ];
 
         $elements = [];

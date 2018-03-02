@@ -29,7 +29,7 @@ final class GetCalendarRequest extends AbstractPropFindWebDAVRequest
             '{DAV:}resourcetype',
             '{DAV:}sync-token',
             '{DAV:}getetag',
-            '{http://calendarserver.org/ns/:}getctag',
+            '{http://calendarserver.org/ns/}getctag',
         ];
     }
 }
