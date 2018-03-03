@@ -225,7 +225,9 @@ final class CalDavClient implements ICalDavClient
     public function createCalendar($calendar_home_set, MakeCalendarRequestVO $vo)
     {
         $uid           = $vo->getUID();
-        $resource_url  = $calendar_home_set.$uid;
+        $resource_name = $vo->getResourceName();
+
+        $resource_url  = $calendar_home_set . ($resource_name ? $resource_name : $uid);
         $http_response = $this->makeRequest(
             RequestFactory::createMakeCalendarRequest
             (
