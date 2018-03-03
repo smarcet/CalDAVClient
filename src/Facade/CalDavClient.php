@@ -78,6 +78,11 @@ final class CalDavClient implements ICalDavClient
     private $password;
 
     /**
+     * @var string
+     */
+    private $authtype = "basic";
+
+    /**
      * @var Client
      */
     private $client;
@@ -92,12 +97,15 @@ final class CalDavClient implements ICalDavClient
      * @param string $server_url
      * @param string|null $user
      * @param string|null $password
+     * @param string|"basic" $authtype
      */
-    public function __construct($server_url, $user = null, $password = null)
+    public function __construct($server_url, $user = null, $password = null, $authtype = "basic")
     {
         $this->server_url = $server_url;
         $this->user       = $user;
         $this->password   = $password;
+        $this->authtype   = $authtype;
+
         $this->client     = new Client();
     }
 
@@ -121,6 +129,10 @@ final class CalDavClient implements ICalDavClient
         $this->password = $password;
     }
 
+    public function setAuthenticationType($authtype) {
+        $this->authtype = $authtype;
+    }
+
     /**
      * @param Request $http_request
      * @return mixed|\Psr\Http\Message\ResponseInterface
@@ -128,7 +140,7 @@ final class CalDavClient implements ICalDavClient
     private function makeRequest(Request $http_request){
         try{
             return $this->client->send($http_request, [
-                'auth'    => [$this->user, $this->password],
+                'auth'    => [$this->user, $this->password, $this->authtype],
                 'timeout' => $this->timeout
             ]);
         }
