@@ -33,15 +33,14 @@ final class CalendarSyncInfoResponse extends ResourceCollectionResponse
         return count($this->responses) > 0;
     }
 
-
     /**
      * @return ETagEntityResponse[]
      */
     public function getUpdates(){
         $res = [];
         foreach ($this->responses as $entity){
-            if($entity->getStatus() != HttpResponse::HttpOKStatus) continue;
-            $res[] = $entity;
+            if($entity instanceof ETagEntityResponse && $entity->getStatus() != HttpResponse::HttpOKStatus) continue;
+                $res[] = $entity;
         }
         return $res;
     }
@@ -52,8 +51,8 @@ final class CalendarSyncInfoResponse extends ResourceCollectionResponse
     public function getDeletes(){
         $res = [];
         foreach ($this->responses as $entity){
-            if($entity->getStatus() != HttpResponse::HttpNotFoundStatus) continue;
-            $res[] = $entity;
+            if($entity instanceof ETagEntityResponse && $entity->getStatus() != HttpResponse::HttpNotFoundStatus) continue;
+                $res[] = $entity;
         }
         return $res;
     }

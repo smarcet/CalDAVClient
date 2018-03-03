@@ -62,6 +62,8 @@ final class CalDavClient implements ICalDavClient
 
     const CalendarAccessOption = 'calendar-access';
 
+    const DefaultAuthType      = 'basic';
+
     /**
      * @var string
      */
@@ -80,7 +82,7 @@ final class CalDavClient implements ICalDavClient
     /**
      * @var string
      */
-    private $authtype = "basic";
+    private $authtype = self::DefaultAuthType;
 
     /**
      * @var Client
@@ -97,9 +99,9 @@ final class CalDavClient implements ICalDavClient
      * @param string $server_url
      * @param string|null $user
      * @param string|null $password
-     * @param string|"basic" $authtype
+     * @param string $authtype
      */
-    public function __construct($server_url, $user = null, $password = null, $authtype = "basic")
+    public function __construct($server_url, $user = null, $password = null, $authtype = self::DefaultAuthType)
     {
         $this->server_url = $server_url;
         $this->user       = $user;

@@ -38,7 +38,7 @@ class EventCreatedResponse extends HttpResponse
      * @param int $etag
      * @param string $resource_url
      * @param string $body
-     * @param string $code
+     * @param int $code
      */
     public function __construct($uid, $etag, $resource_url, $body, $code)
     {
