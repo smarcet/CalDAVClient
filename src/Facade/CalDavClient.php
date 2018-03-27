@@ -260,16 +260,17 @@ final class CalDavClient implements ICalDavClient
 
     /**
      * @param string $calendar_url
+     * @param int $depth Defaults to 0 to obtain calendar metadata. Set to 1 to obtain (all) calendar contents as well.
      * @return GetCalendarResponse
      */
-    public function getCalendar($calendar_url)
+    public function getCalendar($calendar_url, $depth = 0)
     {
         $http_response = $this->makeRequest(
             RequestFactory::createPropFindRequest
             (
                 $calendar_url,
                 CalDAVRequestFactory::getInstance()->build(CalDAVRequestFactory::CalendarRequestType)->getContent(),
-                0
+                $depth
             )
         );
 

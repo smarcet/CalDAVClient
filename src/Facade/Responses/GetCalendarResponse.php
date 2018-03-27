@@ -16,7 +16,7 @@
  * Class GetCalendarResponse
  * @package CalDAVClient\Facade\Responses
  */
-final class GetCalendarResponse extends ETagEntityResponse
+final class GetCalendarResponse extends ETagEntityMultiResponse
 {
     /**
      * @return string
