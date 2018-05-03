@@ -43,15 +43,18 @@ final class CalendarQueryFilter
      * CalendarQueryFilter constructor.
      * @param bool $get_etags
      * @param bool $get_calendar_data
-     * @param DateTime $to
      * @param DateTime $from
+     * @param DateTime $to
      */
-    public function __construct($get_etags = true, $get_calendar_data = false, DateTime $to = null, DateTime $from = null)
+    public function __construct($get_etags = true, $get_calendar_data = false, DateTime $from = null,  DateTime $to = null)
     {
-        $this->get_etags = $get_etags;
+        $this->get_etags         = $get_etags;
         $this->get_calendar_data = $get_calendar_data;
-        $this->to = $to;
-        $this->from = $from;
+        $this->from              = $from;
+        $this->to                = $to;
+
+        if(!is_null($this->from) && !is_null($this->to) && $this->from > $this->to)
+            throw new \InvalidArgumentException("from should be lower than to param");
     }
 
     /**

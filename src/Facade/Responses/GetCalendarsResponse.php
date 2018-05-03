@@ -20,13 +20,25 @@ namespace CalDAVClient\Facade\Responses;
  */
 final class GetCalendarsResponse extends GenericMultiCalDAVResponse
 {
-
     /**
      * @return GenericSinglePROPFINDCalDAVResponse
      */
     protected function buildSingleResponse()
     {
         return new GetCalendarResponse();
+    }
+
+    /**
+     * @param string $type
+     * @return array
+     */
+    public function getResponseByType($type){
+        $responses = [];
+        foreach ($this->getResponses() as $response){
+            $resource_types = $response->getResourceType();
+            if(in_array($type, array_keys($resource_types))) $responses[] = $response;
+        }
+        return $responses;
     }
 }
 
