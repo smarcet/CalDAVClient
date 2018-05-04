@@ -35,7 +35,7 @@ class EventCreatedResponse extends HttpResponse
     /**
      * EventCreatedResponse constructor.
      * @param string $uid
-     * @param int $etag
+     * @param string $etag
      * @param string $resource_url
      * @param string $body
      * @param int $code

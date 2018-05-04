@@ -13,33 +13,16 @@
  **/
 
 /**
- * Class GetCalendarsResponse
+ * Class UserPrincipalSingleResponse
  * @package CalDAVClient\Facade\Responses
  */
-final class GetCalendarsResponse extends GenericMultiCalDAVResponse
+final class UserPrincipalSingleResponse extends GenericSinglePROPFINDCalDAVResponse
 {
     /**
-     * @return GenericSinglePROPFINDCalDAVResponse
+     * @return string
      */
-    protected function buildSingleResponse()
-    {
-        return new GetCalendarResponse();
-    }
-
-    /**
-     * @param string $type
-     * @return array
-     */
-    public function getResponseByType($type){
-        $responses = [];
-
-        foreach ($this->getResponses() as $response){
-            if(!$response instanceof GetCalendarResponse) continue;
-            $resource_types = $response->getResourceType();
-            if(in_array($type, array_keys($resource_types))) $responses[] = $response;
-        }
-
-        return $responses;
+    public function getPrincipalUrl() {
+        return isset($this->found_props['current-user-principal']) &&  isset($this->found_props['current-user-principal']['href']) ?
+            $this->server_url.$this->found_props['current-user-principal']['href'] : null;
     }
 }
-

@@ -16,8 +16,25 @@
         </testsuite>
     </testsuites>
     <php>
-        <env name="CALDAV_SERVER_URL" value="https://p01-caldav.icloud.com:443"/>
-        <env name="USER_EMAIL" value="smarcet@gmail.com"/>
-        <env name="USER_PASSWORD" value=""/>
+        <!-- This is the configuration template for a SabreDAV server
+        <env name="CALDAV_SERVER_HOST" value="http://localhost" />
+        <env name="CALDAV_SERVER_PATH" value="/my-sabredav-installation/server.php/" />
+        <env name="CALDAV_CALENDAR_HOME" value="calendars/admin/" />
+        <env name="CALDAV_TEST_CALENDAR_PATH" value="openstack-summit-sidney-2017/" />
+
+        <env name="USER_LOGIN" value="" />
+        <env name="USER_PASSWORD" value="" />
+        <env name="AUTHTYPE" value="digest" />
+        -->
+
+        <!-- This is the configuration template for an iCloud account -->
+        <env name="CALDAV_SERVER_HOST" value="https://pXX-caldav.icloud.com:443" />
+        <env name="CALDAV_SERVER_PATH" value="/" />
+        <env name="CALDAV_CALENDAR_HOME" value="000000000/calendars/" />
+        <env name="CALDAV_TEST_CALENDAR_PATH" value="00000000-0000-0000-0000-000000000000/" />
+
+        <env name="USER_LOGIN" value="my-icloud-login@icloud.com" />
+        <env name="USER_PASSWORD" value="my-2-factor-icloud-app-specific-password" />
+        <env name="AUTHTYPE" value="basic" />
     </php>
 </phpunit>
