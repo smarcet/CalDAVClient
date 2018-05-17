@@ -26,7 +26,7 @@ final class GetCalendarsResponse extends GenericMultiCalDAVResponse
      */
     protected function buildSingleResponse()
     {
-        return new GetCalendarResponse();
+        return new GetCalendarMultiResponse();
     }
 }
 

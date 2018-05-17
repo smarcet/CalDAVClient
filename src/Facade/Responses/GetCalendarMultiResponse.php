@@ -13,31 +13,18 @@
  **/
 
 /**
- * Class GetCalendarResponse
+ * Class GetCalendarMultiResponse
  * @package CalDAVClient\Facade\Responses
  */
-final class GetCalendarResponse extends GenericSinglePROPFINDCalDAVResponse
+final class GetCalendarMultiResponse extends GenericMultiCalDAVResponse
 {
-    /**
-     * @return string
-     */
-    public function getDisplayName(){
-        return isset($this->found_props['displayname']) ? $this->found_props['displayname'] : null;
-    }
 
     /**
-     * @see https://tools.ietf.org/html/rfc6578
-     * @return string
+     * @return GenericSinglePROPFINDCalDAVResponse
      */
-    public function getSyncToken(){
-        return isset($this->found_props['sync-token']) ? $this->found_props['sync-token'] : null;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCTag(){
-        return isset($this->found_props['getctag']) ? $this->found_props['getctag'] : null;
+    protected function buildSingleResponse()
+    {
+        return new GetCalendarResponse();
     }
 
 }
