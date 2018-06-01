@@ -11,11 +11,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
+use RuntimeException;
+use Throwable;
 /**
+ *
  * Class ConflictException
  * @package CalDAVClient\Facade\Exceptions
  */
-final class ConflictException extends \RuntimeException
+final class ConflictException extends RuntimeException
 {
-
+    public function __construct($message = "", $code = 0, Throwable $previous = null)
+    {
+        parent::__construct($message, $code, $previous);
+    }
 }
