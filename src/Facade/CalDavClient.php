@@ -13,6 +13,7 @@
  * limitations under the License.
  **/
 
+use CalDAVClient\Facade\Exceptions\ConflictException;
 use CalDAVClient\Facade\Exceptions\ForbiddenException;
 use CalDAVClient\Facade\Requests\CalDAVRequestFactory;
 use CalDAVClient\Facade\Requests\CalendarQueryFilter;
@@ -138,6 +139,7 @@ final class CalDavClient implements ICalDavClient
     /**
      * @param Request $http_request
      * @return mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     private function makeRequest(Request $http_request){
         try{
@@ -151,11 +153,13 @@ final class CalDavClient implements ICalDavClient
                 case 401:
                     throw new UserUnAuthorizedException();
                     break;
+                case 403:
+                    throw new ForbiddenException();
                 case 404:
                     throw new NotFoundResourceException();
                     break;
-                case 403:
-                    throw new ForbiddenException();
+                case 409:
+                    throw new ConflictException();
                 default:
                     throw new ServerErrorException($ex->getMessage(), $ex->getCode());
                     break;
