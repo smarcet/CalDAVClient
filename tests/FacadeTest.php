@@ -86,26 +86,31 @@ final class FacadeTest extends PHPUnit_Framework_TestCase
         $caldav_path = getenv("CALDAV_SERVER_PATH");
 
         $principal_url = $this->testPrincipal();
-        $res    = self::$client->getCalendarHome($caldav_host . $principal_url);
-        $url    = $res->getCalendarHomeSetUrl();
+        $homes  = self::$client->getCalendarHome($caldav_host . $principal_url)->getResponses();
+        foreach ($homes as $res) {
+            $url    = $res->getCalendarHomeSetUrl();
 
-        $this->assertTrue(!empty($url), "Calendar home URL is empty");
-        // $host = $res->getRealCalDAVHost();
-        // echo sprintf('calendar home is %s', $url).PHP_EOL;
-        // echo sprintf('host is %s', $caldav_host).PHP_EOL;
+            $this->assertTrue(!empty($url), "Calendar home URL is empty");
+            // $host = $res->getRealCalDAVHost();
+            // echo sprintf('calendar home is %s', $url).PHP_EOL;
+            // echo sprintf('host is %s', $caldav_host).PHP_EOL;
 
-        // first, ensures that the 'home' path is relative to the CalDav server
-        // (this differs between servers)
-        $path_without_prefix = $url;
-        if (strpos($path_without_prefix, $caldav_host) === 0) {
-            $path_without_prefix = substr($path_without_prefix, strlen($caldav_host));
+            // first, ensures that the 'home' path is relative to the CalDav server
+            // (this differs between servers)
+            $path_without_prefix = $url;
+            if (strpos($path_without_prefix, $caldav_host) === 0) {
+                $path_without_prefix = substr($path_without_prefix, strlen($caldav_host));
+            }
+            if (strpos($path_without_prefix, $caldav_path) === 0) {
+                $path_without_prefix = substr($path_without_prefix, strlen($caldav_path));
+            }
+
+            // then, turn the URL into an absolute URL so that we always know what to expect
+            self::$calendar_home = $caldav_host . $caldav_path . $path_without_prefix;
+
+            // stop after first response
+            break;
         }
-        if (strpos($path_without_prefix, $caldav_path) === 0) {
-            $path_without_prefix = substr($path_without_prefix, strlen($caldav_path));
-        }
-
-        // then, turn the URL into an absolute URL so that we always know what to expect
-        self::$calendar_home = $caldav_host . $caldav_path . $path_without_prefix;
     }
 
     function testGetCalendars(){
