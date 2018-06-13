@@ -75,10 +75,14 @@ final class FacadeTest extends PHPUnit_Framework_TestCase
     }
 
     function testGetCalendar(){
-        $res  = self::$client->getCalendar(getenv('CALDAV_SERVER_URL').'/8244464267/calendars/openstack-summit-sidney-2017/');
-        $this->assertTrue($res->isSuccessFull());
-        $this->assertTrue(!empty($res->getDisplayName()));
-        $this->assertTrue(!empty($res->getSyncToken()));
+        $responses = self::$client->getCalendar($this->getCalendarUrl())->getResponses();
+
+        foreach ($responses as $res) {
+            $this->assertTrue($res->isSuccessFull(), "Calendar request not successful");
+            $this->assertTrue(!empty($res->getDisplayName()), "Display name not set");
+            $this->assertTrue(!empty($res->getSyncToken()), "Sync-token empty");
+        }
+        return $responses[0];
     }
 
     function testSyncCalendar(){

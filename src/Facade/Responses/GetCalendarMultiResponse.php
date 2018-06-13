@@ -20,7 +20,7 @@ final class GetCalendarMultiResponse extends GenericMultiCalDAVResponse
 {
 
     /**
-     * @return GenericSinglePROPFINDCalDAVResponse
+     * @return GetCalendarResponse
      */
     protected function buildSingleResponse()
     {
