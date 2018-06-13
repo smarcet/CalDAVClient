@@ -1,4 +1,4 @@
-<?php
+<?php namespace CalDAVClient\Facade\Responses;
 /**
  * Copyright 2017 OpenStack Foundation
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,21 +12,34 @@
  * limitations under the License.
  **/
 
-namespace CalDAVClient\Facade\Responses;
-
 /**
  * Class GetCalendarsResponse
  * @package CalDAVClient\Facade\Responses
  */
 final class GetCalendarsResponse extends GenericMultiCalDAVResponse
 {
-
     /**
      * @return GenericSinglePROPFINDCalDAVResponse
      */
     protected function buildSingleResponse()
     {
         return new GetCalendarMultiResponse();
+    }
+
+    /**
+     * @param string $type
+     * @return array
+     */
+    public function getResponseByType($type){
+        $responses = [];
+
+        foreach ($this->getResponses() as $response){
+            if(!$response instanceof GetCalendarResponse) continue;
+            $resource_types = $response->getResourceType();
+            if(in_array($type, array_keys($resource_types))) $responses[] = $response;
+        }
+
+        return $responses;
     }
 }
 

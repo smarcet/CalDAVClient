@@ -18,11 +18,16 @@
  */
 final class GetCalendarResponse extends GenericSinglePROPFINDCalDAVResponse
 {
+    const ResourceTypeCalendar = 'calendar';
     /**
      * @return string
      */
     public function getDisplayName(){
         return isset($this->found_props['displayname']) ? $this->found_props['displayname'] : null;
+    }
+
+    public function getResourceType(){
+        return isset($this->found_props['resourcetype']) ? $this->found_props['resourcetype'] : null;
     }
 
     /**

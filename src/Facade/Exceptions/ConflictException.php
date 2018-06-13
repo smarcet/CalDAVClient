@@ -1,6 +1,6 @@
-<?php namespace CalDAVClient\Facade\Responses;
+<?php namespace CalDAVClient\Facade\Exceptions;
 /**
- * Copyright 2017 OpenStack Foundation
+ * Copyright 2018 OpenStack Foundation
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -11,19 +11,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
-
+use RuntimeException;
+use Throwable;
 /**
- * Class UserPrincipalResponse
- * @package CalDAVClient\Facade\Responses
+ *
+ * Class ConflictException
+ * @package CalDAVClient\Facade\Exceptions
  */
-final class UserPrincipalResponse extends GenericMultiCalDAVResponse
+final class ConflictException extends RuntimeException
 {
-
-    /**
-     * @return GenericSinglePROPFINDCalDAVResponse
-     */
-    protected function buildSingleResponse()
+    public function __construct($message = "", $code = 0, Throwable $previous = null)
     {
-        return new UserPrincipalSingleResponse();
+        parent::__construct($message, $code, $previous);
     }
 }

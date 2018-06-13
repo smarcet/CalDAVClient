@@ -13,6 +13,7 @@
  * limitations under the License.
  **/
 
+use CalDAVClient\Facade\Exceptions\ConflictException;
 use CalDAVClient\Facade\Exceptions\ForbiddenException;
 use CalDAVClient\Facade\Requests\CalDAVRequestFactory;
 use CalDAVClient\Facade\Requests\CalendarQueryFilter;
@@ -95,18 +96,25 @@ final class CalDavClient implements ICalDavClient
     private $timeout = 60;
 
     /**
+     * @var array
+     */
+    private $headers = [];
+
+    /**
      * CalDavClient constructor.
      * @param string $server_url
      * @param string|null $user
      * @param string|null $password
      * @param string $authtype
+     * @param array $headers Additional headers to send with each request
      */
-    public function __construct($server_url, $user = null, $password = null, $authtype = self::DefaultAuthType)
+    public function __construct($server_url, $user = null, $password = null, $authtype = self::DefaultAuthType, $headers=[])
     {
         $this->server_url = $server_url;
         $this->user       = $user;
         $this->password   = $password;
         $this->authtype   = $authtype;
+        $this->setHeaders($headers);
 
         $this->client     = new Client();
     }
@@ -136,26 +144,52 @@ final class CalDavClient implements ICalDavClient
     }
 
     /**
+     * Set headers that will be sent with each request
+     *
+     * @param array $headers
+     */
+    public function setHeaders($headers = []) {
+        $this->headers = $headers;
+    }
+    
+    /**
      * @param Request $http_request
      * @return mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     private function makeRequest(Request $http_request){
         try{
-            return $this->client->send($http_request, [
-                'auth'    => [$this->user, $this->password, $this->authtype],
+            $options = [
                 'timeout' => $this->timeout
-            ]);
+            ];
+            switch (strtolower(trim($this->authtype))) {
+                case "basic":
+                case "digest":
+                case "ntlm":
+                    $options['auth'] = [$this->user, $this->password, $this->authtype];
+                    break;
+            }
+
+            if (!empty($this->headers)) {
+                $options['headers'] = $this->headers;
+            }
+
+            return $this->client->send($http_request, $options);
         }
         catch (ClientException $ex){
             switch($ex->getCode()){
                 case 401:
                     throw new UserUnAuthorizedException();
                     break;
+                case 403:
+                    throw new ForbiddenException();
+                    break;
                 case 404:
                     throw new NotFoundResourceException();
                     break;
-                case 403:
-                    throw new ForbiddenException();
+                case 409:
+                    throw new ConflictException($ex->getMessage(), $ex->getCode());
+                    break;
                 default:
                     throw new ServerErrorException($ex->getMessage(), $ex->getCode());
                     break;
@@ -165,6 +199,7 @@ final class CalDavClient implements ICalDavClient
 
     /**
      * @return bool
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function isValidServer()
     {
@@ -204,6 +239,7 @@ final class CalDavClient implements ICalDavClient
     /**
      * @param string $principal_url
      * @return CalendarHomesResponse
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function getCalendarHome($principal_url)
     {
@@ -223,6 +259,7 @@ final class CalDavClient implements ICalDavClient
      * @param MakeCalendarRequestVO $vo
      * @see https://tools.ietf.org/html/rfc4791#section-5.3.1
      * @return string|boolean
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function createCalendar($calendar_home_set, MakeCalendarRequestVO $vo)
     {
@@ -244,6 +281,7 @@ final class CalDavClient implements ICalDavClient
     /**
      * @param string $calendar_home_set_url
      * @return GetCalendarsResponse
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function getCalendars($calendar_home_set_url)
     {
@@ -283,6 +321,7 @@ final class CalDavClient implements ICalDavClient
      * @param string $calendar_url
      * @param string $sync_token
      * @return CalendarSyncInfoResponse
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function getCalendarSyncInfo($calendar_url, $sync_token)
     {
@@ -302,6 +341,7 @@ final class CalDavClient implements ICalDavClient
      * @param string $calendar_url
      * @param EventRequestVO $vo
      * @return EventCreatedResponse
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function createEvent($calendar_url, EventRequestVO $vo)
     {
@@ -330,6 +370,7 @@ final class CalDavClient implements ICalDavClient
      * @param EventRequestVO $vo
      * @param string $etag
      * @return EventUpdatedResponse
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function updateEvent($calendar_url, EventRequestVO $vo, $etag = null)
     {
@@ -359,6 +400,7 @@ final class CalDavClient implements ICalDavClient
      * @param string $uid
      * @param string $etag
      * @return EventDeletedResponse
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function deleteEvent($calendar_url, $uid, $etag = null)
     {
@@ -379,6 +421,7 @@ final class CalDavClient implements ICalDavClient
     /**
      * @param string $event_url
      * @return string
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function getEventVCardBy($event_url){
         $http_response = $this->makeRequest(
@@ -396,6 +439,7 @@ final class CalDavClient implements ICalDavClient
      * @param string $calendar_url
      * @param array $events_urls
      * @return ResourceCollectionResponse
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function getEventsBy($calendar_url, array $events_urls)
     {
@@ -419,6 +463,7 @@ final class CalDavClient implements ICalDavClient
      * @param string $calendar_url
      * @param CalendarQueryFilter $filter
      * @return ResourceCollectionResponse
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function getEventsByQuery($calendar_url, CalendarQueryFilter $filter)
     {
@@ -443,6 +488,7 @@ final class CalDavClient implements ICalDavClient
      * @param string $calendar_url
      * @param string|null $etag
      * @return CalendarDeletedResponse
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function deleteCalendar($calendar_url, $etag = null)
     {

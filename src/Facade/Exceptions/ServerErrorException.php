@@ -13,7 +13,6 @@
  **/
 use RuntimeException;
 use Throwable;
-
 /**
  * Class ServerErrorException
  * @package Facade\Exceptions

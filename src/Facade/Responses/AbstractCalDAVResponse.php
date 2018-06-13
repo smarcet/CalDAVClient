@@ -34,6 +34,8 @@ abstract class AbstractCalDAVResponse extends HttpResponse
      */
     protected $content;
 
+    private $stripped;
+
     /**
      * AbstractCalDAVResponse constructor.
      * @param string|null $server_url
@@ -45,10 +47,12 @@ abstract class AbstractCalDAVResponse extends HttpResponse
         parent::__construct($body, $code);
         $this->server_url = $server_url;
         if(!empty($this->body)) {
-            $this->xml     =  simplexml_load_string($this->body, 'SimpleXMLElement', LIBXML_NOCDATA);
+            $this->stripped = $this->stripNamespacesFromTags($this->body);
+            $this->xml     =  simplexml_load_string($this->stripped);
             if($this->xml === FALSE)
                 throw new XMLResponseParseException();
             $this->content = $this->toAssocArray($this->xml);
+
             $this->parse();
         }
     }
@@ -62,6 +66,51 @@ abstract class AbstractCalDAVResponse extends HttpResponse
     }
 
     abstract protected function parse();
+
+    /**
+     * Strip namespaces from the XML, because otherwise we can't always properly convert
+     * the XML to an associative JSON array, and some CalDAV servers (such as SabreDAV)
+     * return only namespaced XML.
+     *
+     * @param $xml
+     * @return string
+     */
+    private function stripNamespacesFromTags($xml) {
+        // `simplexml_load_string` treats namespaced XML differently than non-namespaced XML, and
+        // calling `json_encode` on the results of a parsed namespaced XML string will only
+        // include the non-namespaced tags. Therefore, we remove the namespaces.
+        //
+        // Almost literally taken from
+        // https://laracasts.com/discuss/channels/general-discussion/converting-xml-to-jsonarray/replies/112561
+
+
+        // We retrieve the namespaces from the XML code so we can check for
+        // them to remove them
+        $obj = simplexml_load_string($xml);
+        $namespaces = $obj->getNamespaces(true);
+        $toRemove = array_keys($namespaces);
+
+        // This is part of a regex I will use to remove the namespace declaration from string
+        $nameSpaceDefRegEx = '(\S+)=["\']?((?:.(?!["\']?\s+(?:\S+)=|[>"\']))+.)["\']?';
+
+        // Cycle through each namespace and remove it from the XML string
+        foreach( $toRemove as $remove ) {
+            // First remove the namespace from the opening of the tag
+            $xml = str_replace('<' . $remove . ':', '<', $xml);
+            // Now remove the namespace from the closing of the tag
+            $xml = str_replace('</' . $remove . ':', '</', $xml);
+            // This XML uses the name space with CommentText, so remove that too
+            $xml = str_replace($remove . ':commentText', 'commentText', $xml);
+            // Complete the pattern for RegEx to remove this namespace declaration
+            $pattern = "/xmlns:{$remove}{$nameSpaceDefRegEx}/";
+            // Remove the actual namespace declaration using the Pattern
+            $xml = preg_replace($pattern, '', $xml, 1);
+        }
+
+        // Return sanitized and cleaned up XML with no namespaces
+        return $xml;
+    }
+
     /**
      * @param $xml
      * @return array
