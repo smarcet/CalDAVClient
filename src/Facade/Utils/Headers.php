@@ -18,9 +18,10 @@
  */
 final class Headers
 {
-    const Depth       = 'Depth';
-    const Prefer      = 'Prefer';
-    const ContentType = 'Content-Type';
-    const IfMatch     = 'If-Match';
-    const IfNotMatch  = 'If-None-Match"';
+    const Depth         = 'Depth';
+    const Prefer        = 'Prefer';
+    const ContentType   = 'Content-Type';
+    const ContentLength = 'Content-Length';
+    const IfMatch       = 'If-Match';
+    const IfNotMatch    = 'If-None-Match"';
 }
