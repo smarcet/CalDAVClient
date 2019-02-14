@@ -90,6 +90,20 @@ class GenericSinglePROPFINDCalDAVResponse extends AbstractCalDAVResponse
     }
 
     /**
+     * @return array
+     */
+    public function getFoundProps() {
+        return $this->found_props;
+    }
+
+    /**
+     * @return array
+     */
+    public function getNotFoundProps() {
+        return $this->not_found_props;
+    }
+
+    /**
      * @return bool
      */
     public function isSuccessFull()
