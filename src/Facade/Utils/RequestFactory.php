@@ -49,13 +49,20 @@ final class RequestFactory
                     Headers::ContentType  => ContentTypes::Xml
                 ];
             case HttpMethods::Put:
-               $etag = $params[0];
+
+               $len  = $params[0];
+               $etag = $params[1];
+
+               $headers = [
+                   Headers::ContentLength => intval($len),
+                   Headers::ContentType   => ContentTypes::Calendar,
+               ];
+
                if(!empty($etag)){
-                   return [
-                       Headers::ContentType  => ContentTypes::Calendar,
-                       Headers::IfMatch      => $etag
-                   ];
+                   $headers[Headers::IfMatch] = $etag;
                }
+
+               return $headers;
         }
         return [];
     }
@@ -154,11 +161,28 @@ final class RequestFactory
      * @return Request
      */
      public static function createPutRequest($url, $body, $etag = null){
+
         return new Request
         (
             HttpMethods::Put,
             $url,
-            self::createHeadersFor(HttpMethods::Put, [$etag]),
+            self::createHeadersFor(HttpMethods::Put, [strlen($body), $etag]),
+            $body
+        );
+    }
+
+    /**
+     * @param string $url
+     * @param string $body
+     * @param string $etag
+     * @return Request
+     */
+    public static function createPostRequest($url, $body, $etag = null){
+        return new Request
+        (
+            HttpMethods::Post,
+            $url,
+            self::createHeadersFor(HttpMethods::Post, [$etag]),
             $body
         );
     }

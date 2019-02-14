@@ -96,18 +96,25 @@ final class CalDavClient implements ICalDavClient
     private $timeout = 60;
 
     /**
+     * @var array
+     */
+    private $headers = [];
+
+    /**
      * CalDavClient constructor.
      * @param string $server_url
      * @param string|null $user
      * @param string|null $password
      * @param string $authtype
+     * @param array $headers Additional headers to send with each request
      */
-    public function __construct($server_url, $user = null, $password = null, $authtype = self::DefaultAuthType)
+    public function __construct($server_url, $user = null, $password = null, $authtype = self::DefaultAuthType, $headers=[])
     {
         $this->server_url = $server_url;
         $this->user       = $user;
         $this->password   = $password;
         $this->authtype   = $authtype;
+        $this->setHeaders($headers);
 
         $this->client     = new Client();
     }
@@ -137,16 +144,37 @@ final class CalDavClient implements ICalDavClient
     }
 
     /**
+     * Set headers that will be sent with each request
+     *
+     * @param array $headers
+     */
+    public function setHeaders($headers = []) {
+        $this->headers = $headers;
+    }
+    
+    /**
      * @param Request $http_request
      * @return mixed|\Psr\Http\Message\ResponseInterface
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     private function makeRequest(Request $http_request){
         try{
-            return $this->client->send($http_request, [
-                'auth'    => [$this->user, $this->password, $this->authtype],
+            $options = [
                 'timeout' => $this->timeout
-            ]);
+            ];
+            switch (strtolower(trim($this->authtype))) {
+                case "basic":
+                case "digest":
+                case "ntlm":
+                    $options['auth'] = [$this->user, $this->password, $this->authtype];
+                    break;
+            }
+
+            if (!empty($this->headers)) {
+                $options['headers'] = $this->headers;
+            }
+
+            return $this->client->send($http_request, $options);
         }
         catch (ClientException $ex){
             switch($ex->getCode()){
@@ -155,11 +183,13 @@ final class CalDavClient implements ICalDavClient
                     break;
                 case 403:
                     throw new ForbiddenException();
+                    break;
                 case 404:
                     throw new NotFoundResourceException();
                     break;
                 case 409:
                     throw new ConflictException($ex->getMessage(), $ex->getCode());
+                    break;
                 default:
                     throw new ServerErrorException($ex->getMessage(), $ex->getCode());
                     break;

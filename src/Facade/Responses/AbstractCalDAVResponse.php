@@ -48,7 +48,8 @@ abstract class AbstractCalDAVResponse extends HttpResponse
         $this->server_url = $server_url;
         if(!empty($this->body)) {
             $this->stripped = $this->stripNamespacesFromTags($this->body);
-            $this->xml     =  simplexml_load_string($this->stripped);
+            // Merge CDATA as text nodes
+            $this->xml = simplexml_load_string($this->stripped, null, LIBXML_NOCDATA);
             if($this->xml === FALSE)
                 throw new XMLResponseParseException();
             $this->content = $this->toAssocArray($this->xml);

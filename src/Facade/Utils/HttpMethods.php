@@ -21,6 +21,7 @@
 final class HttpMethods
 {
     const Get          = 'GET';
+    const Post         = 'POST';
     const Put          = 'PUT';
     const Report       = 'REPORT';
     const PropFind     = 'PROPFIND';
