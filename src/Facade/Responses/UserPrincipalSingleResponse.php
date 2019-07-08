@@ -22,7 +22,12 @@ final class UserPrincipalSingleResponse extends GenericSinglePROPFINDCalDAVRespo
      * @return string
      */
     public function getPrincipalUrl() {
-        return isset($this->found_props['current-user-principal']) &&  isset($this->found_props['current-user-principal']['href']) ?
+        $url = isset($this->found_props['current-user-principal']) &&  isset($this->found_props['current-user-principal']['href']) ?
             $this->server_url.$this->found_props['current-user-principal']['href'] : null;
+        // check on not found one ( issue on caldav icloud imp)
+        if(empty($url))
+            $url =  isset($this->not_found_props['current-user-principal']) &&  isset($this->not_found_props['current-user-principal']['href']) ?
+                $this->server_url.$this->not_found_props['current-user-principal']['href'] : null;
+        return $url;
     }
 }

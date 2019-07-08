@@ -229,7 +229,8 @@ final class CalDavClient implements ICalDavClient
             RequestFactory::createPropFindRequest
             (
                 $this->server_url,
-                CalDAVRequestFactory::getInstance()->build(CalDAVRequestFactory::PrincipalRequestType)->getContent()
+                CalDAVRequestFactory::getInstance()->build(CalDAVRequestFactory::PrincipalRequestType)->getContent(),
+                0
             )
         );
 
@@ -247,7 +248,8 @@ final class CalDavClient implements ICalDavClient
             RequestFactory::createPropFindRequest
             (
                 $principal_url,
-                CalDAVRequestFactory::getInstance()->build(CalDAVRequestFactory::CalendarHomeRequestType)->getContent()
+                CalDAVRequestFactory::getInstance()->build(CalDAVRequestFactory::CalendarHomeRequestType)->getContent(),
+                0
             )
         );
 
