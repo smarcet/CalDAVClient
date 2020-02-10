@@ -46,15 +46,15 @@ class GenericSinglePROPFINDCalDAVResponse extends AbstractCalDAVResponse
         if (isset($this->content['response']['propstat']['prop']) && isset($this->content['response']['propstat']['status'])) {
             // all props found
             $status = $this->content['response']['propstat']['status'];
-            if ($status == AbstractCalDAVResponse::HttpOKStatus) {
+            if ($this->statusMatches($status, AbstractCalDAVResponse::HttpOKStatus)) {
                 $this->found_props = $this->content['response']['propstat']['prop'];
                 $this->not_found_props = null;
             }
-            if ($status == AbstractCalDAVResponse::HttpNotFoundStatus) {
+            if ($this->statusMatches($status, AbstractCalDAVResponse::HttpNotFoundStatus)) {
                 $this->not_found_props = $this->content['response']['propstat']['prop'];
                 $this->found_props = null;
             }
-            if ($status == AbstractCalDAVResponse::HttpForbiddenStatus) {
+            if ($this->statusMatches($status, AbstractCalDAVResponse::HttpForbiddenStatus)) {
                 throw new ForbiddenQueryException();
             }
             return $this;
@@ -64,13 +64,23 @@ class GenericSinglePROPFINDCalDAVResponse extends AbstractCalDAVResponse
 
             if (!isset($propstat['status']) || !isset($propstat['prop'])) continue;
 
-            if ($propstat['status'] == AbstractCalDAVResponse::HttpOKStatus)
+            if ($this->statusMatches($propstat['status'], AbstractCalDAVResponse::HttpOKStatus))
                 $this->found_props = $propstat['prop'];
 
-            if ($propstat['status'] == AbstractCalDAVResponse::HttpNotFoundStatus)
+            if ($this->statusMatches($propstat['status'], AbstractCalDAVResponse::HttpNotFoundStatus))
                 $this->not_found_props = $propstat['prop'];
         }
         return $this;
+    }
+
+    /**
+     * @param string $responseStatus
+     * @param string $desiredStatus
+     * @return bool
+     */
+    protected function statusMatches($responseStatus, $desiredStatus)
+    {
+      return strtoupper($responseStatus) == $desiredStatus;
     }
 
     /**
