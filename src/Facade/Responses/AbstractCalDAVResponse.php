@@ -42,15 +42,15 @@ abstract class AbstractCalDAVResponse extends HttpResponse
      * @param string|null $body
      * @param int $code
      */
-    public function __construct($server_url = null, $body = null, $code = HttpResponse::HttpCodeOk )
+    public function __construct($server_url = null, $body = null, $code = HttpResponse::HttpCodeOk)
     {
         parent::__construct($body, $code);
         $this->server_url = $server_url;
-        if(!empty($this->body)) {
+        if (!empty($this->body)) {
             $this->stripped = $this->stripNamespacesFromTags($this->body);
             // Merge CDATA as text nodes
             $this->xml = simplexml_load_string($this->stripped, null, LIBXML_NOCDATA);
-            if($this->xml === FALSE)
+            if ($this->xml === FALSE)
                 throw new XMLResponseParseException();
             $this->content = $this->toAssocArray($this->xml);
 
@@ -62,7 +62,7 @@ abstract class AbstractCalDAVResponse extends HttpResponse
     {
     }
 
-    protected function setContent($content){
+    protected function setContent($content) {
         $this->content = $content;
     }
 
@@ -95,13 +95,13 @@ abstract class AbstractCalDAVResponse extends HttpResponse
         $nameSpaceDefRegEx = '(\S+)=["\']?((?:.(?!["\']?\s+(?:\S+)=|[>"\']))+.)["\']?';
 
         // Cycle through each namespace and remove it from the XML string
-        foreach( $toRemove as $remove ) {
+        foreach ($toRemove as $remove) {
             // First remove the namespace from the opening of the tag
-            $xml = str_replace('<' . $remove . ':', '<', $xml);
+            $xml = str_replace('<'.$remove.':', '<', $xml);
             // Now remove the namespace from the closing of the tag
-            $xml = str_replace('</' . $remove . ':', '</', $xml);
+            $xml = str_replace('</'.$remove.':', '</', $xml);
             // This XML uses the name space with CommentText, so remove that too
-            $xml = str_replace($remove . ':commentText', 'commentText', $xml);
+            $xml = str_replace($remove.':commentText', 'commentText', $xml);
             // Complete the pattern for RegEx to remove this namespace declaration
             $pattern = "/xmlns:{$remove}{$nameSpaceDefRegEx}/";
             // Remove the actual namespace declaration using the Pattern
@@ -125,7 +125,7 @@ abstract class AbstractCalDAVResponse extends HttpResponse
     /**
      * @return bool
      */
-    protected function isValid(){
+    protected function isValid() {
         return isset($this->content['response']);
     }
 }
