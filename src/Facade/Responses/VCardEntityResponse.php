@@ -21,10 +21,10 @@ class VCardEntityResponse extends ETagEntityResponse
     /**
      * @return string
      */
-    public function getVCard(){
-        if(!isset($this->found_props['calendar-data'])) return null;
+    public function getVCard() {
+        if (!isset($this->found_props['calendar-data'])) return null;
         $calendar_data = $this->found_props['calendar-data'];
-        if(!is_string($calendar_data)) return null;
+        if (!is_string($calendar_data)) return null;
         return $calendar_data;
     }
 }
