@@ -20,7 +20,7 @@ use CalDAVClient\Facade\Requests\CalendarQueryFilter;
 use CalDAVClient\Facade\Requests\EventRequestVO;
 use CalDAVClient\Facade\Requests\MakeCalendarRequestVO;
 use CalDAVClient\Facade\Responses\CalendarDeletedResponse;
-use CalDAVClient\Facade\Responses\CalendarHomesResponse;
+use CalDAVClient\Facade\Responses\CalendarHomesMultiResponse;
 use CalDAVClient\Facade\Responses\CalendarSyncInfoResponse;
 use CalDAVClient\Facade\Responses\EventCreatedResponse;
 use CalDAVClient\Facade\Responses\EventDeletedResponse;
@@ -239,7 +239,7 @@ final class CalDavClient implements ICalDavClient
 
     /**
      * @param string $principal_url
-     * @return CalendarHomesResponse
+     * @return CalendarHomesMultiResponse
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function getCalendarHome($principal_url)
@@ -253,7 +253,7 @@ final class CalDavClient implements ICalDavClient
             )
         );
 
-        return new CalendarHomesResponse($this->server_url, (string)$http_response->getBody(), $http_response->getStatusCode());
+        return new CalendarHomesMultiResponse($this->server_url, (string)$http_response->getBody(), $http_response->getStatusCode());
     }
 
     /**
