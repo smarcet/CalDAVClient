@@ -104,6 +104,6 @@ class GenericSinglePROPFINDCalDAVResponse extends AbstractCalDAVResponse
      */
     public function isSuccessFull()
     {
-        return $this->code == HttpResponse::HttpCodeMultiResponse;
+        return ($this->code == HttpResponse::HttpCodeMultiResponse || $this->code == HttpResponse::HttpCodeOk);
     }
 }

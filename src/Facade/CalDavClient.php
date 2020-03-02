@@ -25,7 +25,7 @@ use CalDAVClient\Facade\Responses\CalendarSyncInfoResponse;
 use CalDAVClient\Facade\Responses\EventCreatedResponse;
 use CalDAVClient\Facade\Responses\EventDeletedResponse;
 use CalDAVClient\Facade\Responses\EventUpdatedResponse;
-use CalDAVClient\Facade\Responses\GetCalendarResponse;
+use CalDAVClient\Facade\Responses\GetCalendarMultiResponse;
 use CalDAVClient\Facade\Responses\GetCalendarsResponse;
 use CalDAVClient\Facade\Responses\ResourceCollectionResponse;
 use CalDAVClient\Facade\Responses\UserPrincipalResponse;
@@ -300,21 +300,22 @@ final class CalDavClient implements ICalDavClient
 
     /**
      * @param string $calendar_url
-     * @return GetCalendarResponse
+     * @param int $depth Defaults to 0 to obtain calendar metadata. Set to 1 to obtain (all) calendar contents as well.
+     * @return GetCalendarMultiResponse
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function getCalendar($calendar_url)
+    public function getCalendar($calendar_url, $depth = 0)
     {
         $http_response = $this->makeRequest(
             RequestFactory::createPropFindRequest
             (
                 $calendar_url,
                 CalDAVRequestFactory::getInstance()->build(CalDAVRequestFactory::CalendarRequestType)->getContent(),
-                0
+                $depth
             )
         );
 
-        return new GetCalendarResponse($this->server_url, (string)$http_response->getBody(), $http_response->getStatusCode());
+        return new GetCalendarMultiResponse($this->server_url, (string)$http_response->getBody(), $http_response->getStatusCode());
     }
 
 

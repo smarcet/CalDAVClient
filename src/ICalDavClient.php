@@ -21,7 +21,7 @@ use CalDAVClient\Facade\Responses\CalendarSyncInfoResponse;
 use CalDAVClient\Facade\Responses\EventCreatedResponse;
 use CalDAVClient\Facade\Responses\EventDeletedResponse;
 use CalDAVClient\Facade\Responses\EventUpdatedResponse;
-use CalDAVClient\Facade\Responses\GetCalendarResponse;
+use CalDAVClient\Facade\Responses\GetCalendarMultiResponse;
 use CalDAVClient\Facade\Responses\GetCalendarsResponse;
 use CalDAVClient\Facade\Responses\ResourceCollectionResponse;
 use CalDAVClient\Facade\Responses\UserPrincipalResponse;
@@ -86,7 +86,7 @@ interface ICalDavClient
 
     /**
      * @param string $calendar_url
-     * @return GetCalendarResponse
+     * @return GetCalendarMultiResponse
      */
     public function getCalendar($calendar_url);
 

@@ -16,7 +16,7 @@
  * Class GetCalendarResponse
  * @package CalDAVClient\Facade\Responses
  */
-final class GetCalendarResponse extends ETagEntityResponse
+final class GetCalendarResponse extends GenericSinglePROPFINDCalDAVResponse
 {
     const ResourceTypeCalendar = 'calendar';
     /**
@@ -51,6 +51,5 @@ final class GetCalendarResponse extends ETagEntityResponse
     public function getCTag(){
         return isset($this->found_props['getctag']) ? $this->found_props['getctag'] : null;
     }
-
 
 }

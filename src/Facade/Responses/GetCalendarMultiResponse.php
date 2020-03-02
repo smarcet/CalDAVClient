@@ -13,33 +13,18 @@
  **/
 
 /**
- * Class GetCalendarsResponse
+ * Class GetCalendarMultiResponse
  * @package CalDAVClient\Facade\Responses
  */
-final class GetCalendarsResponse extends GenericMultiCalDAVResponse
+final class GetCalendarMultiResponse extends GenericMultiCalDAVResponse
 {
+
     /**
-     * @return GenericSinglePROPFINDCalDAVResponse
+     * @return GetCalendarResponse
      */
     protected function buildSingleResponse()
     {
-        return new GetCalendarMultiResponse();
+        return new GetCalendarResponse();
     }
 
-    /**
-     * @param string $type
-     * @return array
-     */
-    public function getResponseByType($type){
-        $responses = [];
-
-        foreach ($this->getResponses() as $response){
-            if(!$response instanceof GetCalendarResponse) continue;
-            $resource_types = $response->getResourceType();
-            if(in_array($type, array_keys($resource_types))) $responses[] = $response;
-        }
-
-        return $responses;
-    }
 }
-

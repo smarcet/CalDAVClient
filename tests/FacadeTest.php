@@ -118,11 +118,14 @@ final class FacadeTest extends PHPUnit_Framework_TestCase
     }
 
     function testGetCalendar(){
-        $res  = self::$client->getCalendar($this->getCalendarUrl());
-        $this->assertTrue($res->isSuccessFull(), "Calendar request not successful");
-        $this->assertTrue(!empty($res->getDisplayName()), "Display name not set");
-        $this->assertTrue(!empty($res->getSyncToken()), "Sync-token empty");
-        return $res;
+        $responses = self::$client->getCalendar($this->getCalendarUrl())->getResponses();
+
+        foreach ($responses as $res) {
+            $this->assertTrue($res->isSuccessFull(), "Calendar request not successful");
+            $this->assertTrue(!empty($res->getDisplayName()), "Display name not set");
+            $this->assertTrue(!empty($res->getSyncToken()), "Sync-token empty");
+        }
+        return $responses[0];
     }
 
     function testSyncCalendar(){
