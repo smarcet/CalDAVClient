@@ -16,32 +16,29 @@
  * Class CalDAVRequestFactory
  * @package CalDAVClient\Facade\Requests
  */
-final class CalDAVRequestFactory
+final class CalDAVRequestFactory implements ICalDAVRequestFactory
 {
-    const PrincipalRequestType        = 'PRINCIPAL';
-    const CalendarHomeRequestType     = 'CALENDAR_HOME';
-    const CalendarsRequestType        = 'CALENDARS';
-    const CalendarRequestType         = 'CALENDAR';
-    const CalendarSyncRequestType     = 'CALENDAR_SYNC';
-    const CalendarMultiGetRequestType = 'CALENDAR_MULTIGET';
-    const CalendarQueryRequestType    = 'CALENDAR_QUERY';
-    const CalendarCreateRequestType   = 'CREATE_CALENDAR';
-    const EventCreateRequestType      = 'CREATE_EVENT';
-    const EventUpdateRequestType      = 'UPDATE_EVENT';
-
     private function __construct(){}
 
     /**
-     * @var CalDAVRequestFactory
+     * @var ICalDAVRequestFactory
      */
     private static $instance;
 
     /**
-     * @return CalDAVRequestFactory
+     * @return ICalDAVRequestFactory
      */
     public static function getInstance(){
         if(is_null(self::$instance)) self::$instance = new CalDAVRequestFactory();
         return self::$instance;
+    }
+
+    /**
+     * Override which class is used to create new request objects.
+     * @param ICalDAVRequestFactory $factory
+     */
+    public static function setInstance(ICalDAVRequestFactory $factory) {
+        self::$instance = $factory;
     }
 
     /**
