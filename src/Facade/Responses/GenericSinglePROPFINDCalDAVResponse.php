@@ -106,4 +106,11 @@ class GenericSinglePROPFINDCalDAVResponse extends AbstractCalDAVResponse
     {
         return $this->code == HttpResponse::HttpCodeMultiResponse;
     }
+
+    /**
+     * @return array
+     */
+    public function getFoundProps() {
+        return $this->found_props;
+    }
 }

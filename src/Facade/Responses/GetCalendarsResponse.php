@@ -30,16 +30,45 @@ final class GetCalendarsResponse extends GenericMultiCalDAVResponse
      * @param string $type
      * @return array
      */
-    public function getResponseByType($type){
+    public function getResponseByType($type)
+    {
         $responses = [];
 
-        foreach ($this->getResponses() as $response){
-            if(!$response instanceof GetCalendarResponse) continue;
+        foreach ($this->getResponses() as $response) {
+            if (!$response instanceof GetCalendarResponse) {
+                continue;
+            }
+            
             $resource_types = $response->getResourceType();
-            if(in_array($type, array_keys($resource_types))) $responses[] = $response;
+            
+            if (in_array($type, array_keys($resource_types))) {
+                $responses[] = $response;
+            }
+        }
+
+        return $responses;
+    }
+
+    /**
+     * @param string $component
+     * @return array
+     */
+    public function getResponsesBySupportedComponent(string $component): array
+    {
+        $responses = [];
+
+        foreach ($this->getResponses() as $response) {
+            if (! $response instanceof GetCalendarResponse) {
+                continue;
+            }
+
+            $supportedComponents = $response->getSupportedComponents();
+
+            if (in_array($component, $supportedComponents)) {
+                $responses[] = $response;
+            }
         }
 
         return $responses;
     }
 }
-
