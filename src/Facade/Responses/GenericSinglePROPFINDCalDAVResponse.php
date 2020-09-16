@@ -13,8 +13,8 @@
  * limitations under the License.
  **/
 
-use CalDAVClient\Facade\Exceptions\ForbiddenQueryException;
-use CalDAVClient\Facade\Exceptions\NotValidGenericSingleCalDAVResponseException;
+use CalDAVClient\Facade\Responses\Exceptions\ForbiddenQueryException;
+use CalDAVClient\Facade\Responses\Exceptions\NotValidGenericSingleCalDAVResponseException;
 
 /**
  * Class GenericSinglePROPFINDCalDAVResponse
