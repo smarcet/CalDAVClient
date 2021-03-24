@@ -1,4 +1,4 @@
-<?php namespace CalDAVClient\Facade\Exceptions;
+<?php namespace CalDAVClient\Facade\Responses\Exceptions;
 
 /**
  * Copyright 2017 OpenStack Foundation
