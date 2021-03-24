@@ -14,7 +14,7 @@
         }
     ],
     "require": {
-        "guzzlehttp/guzzle": "^6.3",
+        "guzzlehttp/guzzle": "^7.0",
         "sabre/xml": "^1.5.0",
         "sabre/uri": "^1.2.0",
         "eluceo/ical": "^0.15.0"
