@@ -29,7 +29,9 @@ final class GetCalendarRequest extends AbstractPropFindWebDAVRequest
             '{DAV:}resourcetype',
             '{DAV:}sync-token',
             '{DAV:}getetag',
+            '{DAV:}current-user-privilege-set',
             '{http://calendarserver.org/ns/}getctag',
+            '{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set',
         ];
     }
 }

@@ -52,5 +52,13 @@ final class GetCalendarResponse extends ETagEntityResponse
         return isset($this->found_props['getctag']) ? $this->found_props['getctag'] : null;
     }
 
+    public function getPermissions(): array
+    {
+        return $this->found_props;
+    }
 
+    public function getSupportedComponents(): array
+    {
+        return $this->found_props;
+    }
 }
