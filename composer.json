@@ -1,6 +1,6 @@
 {
-    "name": "row-and-table/cal-dav-client",
-    "homepage": "https://github.com/row-and-table",
+    "name": "smarcet/caldavclient",
+    "homepage": "https://github.com/smarcet",
     "description": "CALDAV Client for PHP",
     "keywords": [
        "CalDav", "Calendar", "synchronization", "iCloud"
