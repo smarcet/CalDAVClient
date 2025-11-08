@@ -58,4 +58,53 @@ final class GetCalendarResponse extends ETagEntityResponse
     public function getCalendarColor(){
         return isset($this->found_props['calendar-color']) ? $this->found_props['calendar-color'] : null;
     }
+
+    /**
+     * Get supported calendar component types (VEVENT, VTODO, VJOURNAL, etc.)
+     * Returns array of component names that this calendar supports
+     *
+     * @return array|null Array of component names like ['VEVENT', 'VTODO'] or null
+     */
+    public function getSupportedComponents()
+    {
+        if (!isset($this->found_props['supported-calendar-component-set'])) {
+            return null;
+        }
+
+        $componentSet = $this->found_props['supported-calendar-component-set'];
+        $components = [];
+
+        // Handle single component (most common case)
+        // Structure: {"comp": {"@attributes": {"name": "VEVENT"}}}
+        if (isset($componentSet['comp']['@attributes']['name'])) {
+            $components[] = $componentSet['comp']['@attributes']['name'];
+        }
+        // Handle array of components (less common)
+        // Structure: [{"@attributes": {"name": "VEVENT"}}, {"@attributes": {"name": "VTODO"}}]
+        elseif (is_array($componentSet)) {
+            foreach ($componentSet as $key => $comp) {
+                // Check for @attributes.name pattern
+                if (isset($comp['@attributes']['name'])) {
+                    $components[] = $comp['@attributes']['name'];
+                }
+                // Also check direct name property as fallback
+                elseif (isset($comp['name'])) {
+                    $components[] = $comp['name'];
+                }
+            }
+        }
+
+        return empty($components) ? null : $components;
+    }
+
+    /**
+     * Check if calendar supports VEVENT components (calendar events)
+     *
+     * @return bool
+     */
+    public function supportsEvents()
+    {
+        $components = $this->getSupportedComponents();
+        return $components !== null && in_array('VEVENT', $components);
+    }
 }
