@@ -107,4 +107,63 @@ final class GetCalendarResponse extends ETagEntityResponse
         $components = $this->getSupportedComponents();
         return $components !== null && in_array('VEVENT', $components);
     }
+
+    /**
+     * Get current user's privilege set for this calendar
+     *
+     * @return array|null Array of privilege names like ['read', 'write'] or null
+     */
+    public function getCurrentUserPrivileges()
+    {
+        if (!isset($this->found_props['current-user-privilege-set'])) {
+            return null;
+        }
+
+        $privilegeSet = $this->found_props['current-user-privilege-set'];
+        $privileges = [];
+
+        // The property contains nested privilege elements
+        // Each privilege element contains a privilege name like 'write', 'read', etc.
+        if (is_array($privilegeSet)) {
+            foreach ($privilegeSet as $privilege) {
+                if (is_array($privilege) && isset($privilege['privilege'])) {
+                    // Privilege can be array of privilege names or single value
+                    if (is_array($privilege['privilege'])) {
+                        $privileges = array_merge($privileges, array_keys($privilege['privilege']));
+                    } else {
+                        $privileges[] = $privilege['privilege'];
+                    }
+                }
+            }
+        }
+
+        return empty($privileges) ? null : $privileges;
+    }
+
+    /**
+     * Check if user has write permission to this calendar
+     *
+     * @return bool|null True if writable, false if read-only, null if unknown
+     */
+    public function isWritable()
+    {
+        $privileges = $this->getCurrentUserPrivileges();
+
+        if ($privileges === null) {
+            // If privileges not provided, assume writable (conservative default)
+            return null;
+        }
+
+        // Check for write-related privileges
+        // DAV spec defines: write, write-content, write-properties, bind, unbind
+        $writePrivileges = ['write', 'write-content', 'bind'];
+
+        foreach ($writePrivileges as $writePriv) {
+            if (in_array($writePriv, $privileges)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

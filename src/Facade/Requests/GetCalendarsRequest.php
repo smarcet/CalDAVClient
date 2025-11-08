@@ -24,6 +24,7 @@ final class GetCalendarsRequest extends AbstractPropFindWebDAVRequest
             '{http://apple.com/ns/ical/}calendar-color',
             '{http://calendarserver.org/ns/}getctag',
             '{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set',
+            '{DAV:}current-user-privilege-set',
         ];
     }
 }
