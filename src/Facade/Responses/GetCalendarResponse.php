@@ -166,4 +166,19 @@ final class GetCalendarResponse extends ETagEntityResponse
 
         return false;
     }
+
+    /**
+     * Check if user can edit this calendar
+     * Convenience method that wraps isWritable() with null handling
+     * Returns true if writable or unknown (null), false if explicitly read-only
+     *
+     * @return bool
+     */
+    public function canEdit()
+    {
+        $isWritable = $this->isWritable();
+        // Handle null (server doesn't expose privileges) as true
+        // This maintains backward compatibility with CalDAV servers that don't provide privilege info
+        return $isWritable !== false;
+    }
 }
