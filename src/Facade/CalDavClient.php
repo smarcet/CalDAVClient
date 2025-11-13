@@ -139,6 +139,19 @@ final class CalDavClient implements ICalDavClient
         $this->password = $password;
     }
 
+    /**
+     * Get current credentials
+     *
+     * @return array ['user' => string, 'password' => string]
+     */
+    public function getCredentials()
+    {
+        return [
+            'user' => $this->user,
+            'password' => $this->password
+        ];
+    }
+
     public function setAuthenticationType($authtype) {
         $this->authtype = $authtype;
     }
