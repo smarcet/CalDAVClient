@@ -181,4 +181,71 @@ final class GetCalendarResponse extends ETagEntityResponse
         // This maintains backward compatibility with CalDAV servers that don't provide privilege info
         return $isWritable !== false;
     }
+
+    /**
+     * Parse VALARM components from a VEVENT
+     * Supports RFC 5545 trigger formats:
+     * - Duration: "-PT15M", "PT0S", "-P1D", "-PT1H30M"
+     * - Absolute: "19760401T005545Z" with VALUE=DATE-TIME
+     *
+     * @param \Sabre\VObject\Component\VEvent $vevent
+     * @return array Array of alarms with minutesBefore and isDefault fields
+     */
+    public static function parseVAlarms($vevent)
+    {
+        $alarms = [];
+
+        if (!isset($vevent->VALARM)) {
+            return $alarms;
+        }
+
+        foreach ($vevent->VALARM as $valarm) {
+            if (!isset($valarm->TRIGGER)) {
+                continue;
+            }
+
+            $trigger = (string)$valarm->TRIGGER;
+            $valueParam = isset($valarm->TRIGGER['VALUE']) ? (string)$valarm->TRIGGER['VALUE'] : null;
+            $minutes = null;
+
+            // Case 1: Absolute trigger (VALUE=DATE-TIME)
+            if ($valueParam === 'DATE-TIME') {
+                try {
+                    $triggerTime = new \DateTime($trigger, new \DateTimeZone('UTC'));
+                    $eventStartTime = new \DateTime($vevent->DTSTART->getValue(), new \DateTimeZone('UTC'));
+                    $diff = $eventStartTime->getTimestamp() - $triggerTime->getTimestamp();
+                    $minutes = (int)($diff / 60);
+                    if ($minutes < 0) {
+                        $minutes = 0;
+                    }
+                } catch (\Exception $e) {
+                    continue;
+                }
+            }
+            // Case 2: Duration-based trigger
+            // RFC 5545 duration: "-PT15M", "PT0S", "-P1DT12H", "-PT1H30M"
+            else if (preg_match('/^-?P(?:(\d+)W)?(?:(\d+)D)?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?)?$/', $trigger, $matches)) {
+                $weeks = isset($matches[1]) && $matches[1] !== '' ? (int)$matches[1] : 0;
+                $days = isset($matches[2]) && $matches[2] !== '' ? (int)$matches[2] : 0;
+                $hours = isset($matches[3]) && $matches[3] !== '' ? (int)$matches[3] : 0;
+                $mins = isset($matches[4]) && $matches[4] !== '' ? (int)$matches[4] : 0;
+                $secs = isset($matches[5]) && $matches[5] !== '' ? (int)$matches[5] : 0;
+
+                $minutes = ($weeks * 7 * 24 * 60) + ($days * 24 * 60) + ($hours * 60) + $mins + (int)ceil($secs / 60);
+            }
+
+            if ($minutes !== null) {
+                $alarm = ['minutesBefore' => $minutes];
+
+                // Check for X-APPLE-DEFAULT-ALARM property
+                if (isset($valarm->{'X-APPLE-DEFAULT-ALARM'}) && (string)$valarm->{'X-APPLE-DEFAULT-ALARM'} === 'TRUE') {
+                    $alarm['isDefault'] = true;
+                }
+
+                $alarms[] = $alarm;
+            }
+        }
+
+        return $alarms;
+    }
 }
