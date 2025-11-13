@@ -139,6 +139,19 @@ final class CalDavClient implements ICalDavClient
         $this->password = $password;
     }
 
+    /**
+     * Get current credentials
+     *
+     * @return array ['user' => string, 'password' => string]
+     */
+    public function getCredentials()
+    {
+        return [
+            'user' => $this->user,
+            'password' => $this->password
+        ];
+    }
+
     public function setAuthenticationType($authtype) {
         $this->authtype = $authtype;
     }
@@ -390,6 +403,70 @@ final class CalDavClient implements ICalDavClient
         (
             $uid,
             $etag,
+            $resource_url,
+            (string)$http_response->getBody(),
+            $http_response->getStatusCode()
+        );
+    }
+
+    /**
+     * Create event from raw iCalendar content
+     * Useful for all-day events and events with custom properties
+     *
+     * @param string $calendar_url Calendar URL
+     * @param string $uid Event UID
+     * @param string $ics_content Raw iCalendar content
+     * @return EventCreatedResponse
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function createEventFromICS($calendar_url, $uid, $ics_content)
+    {
+        $resource_url = $calendar_url . $uid . self::SchedulingInformationSuffix;
+
+        $http_response = $this->makeRequest(
+            RequestFactory::createPutRequest(
+                $resource_url,
+                $ics_content
+            )
+        );
+
+        $etag = $http_response->hasHeader(self::ETagHeader) ? $http_response->getHeaderLine(self::ETagHeader) : null;
+        return new EventCreatedResponse(
+            $uid,
+            $etag,
+            $resource_url,
+            (string)$http_response->getBody(),
+            $http_response->getStatusCode()
+        );
+    }
+
+    /**
+     * Update event from raw iCalendar content
+     * Useful for all-day events and events with custom properties
+     *
+     * @param string $calendar_url Calendar URL
+     * @param string $uid Event UID
+     * @param string $ics_content Raw iCalendar content
+     * @param string|null $etag Optional ETag for conditional update
+     * @return EventUpdatedResponse
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function updateEventFromICS($calendar_url, $uid, $ics_content, $etag = null)
+    {
+        $resource_url = $calendar_url . $uid . self::SchedulingInformationSuffix;
+
+        $http_response = $this->makeRequest(
+            RequestFactory::createPutRequest(
+                $resource_url,
+                $ics_content,
+                $etag
+            )
+        );
+
+        $new_etag = $http_response->hasHeader(self::ETagHeader) ? $http_response->getHeaderLine(self::ETagHeader) : null;
+        return new EventUpdatedResponse(
+            $uid,
+            $new_etag,
             $resource_url,
             (string)$http_response->getBody(),
             $http_response->getStatusCode()

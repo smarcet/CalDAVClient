@@ -1,0 +1,61 @@
+Array
+(
+    [0] => CalDAVClient\Facade\Responses\VCardEntityResponse Object
+        (
+            [body:protected] => 
+            [code:protected] => 200
+            [server_url:protected] => 
+            [xml:protected] => 
+            [content:protected] => Array
+                (
+                    [response] => Array
+                        (
+                            [href] => /user123/calendars/TEST-CALENDAR-UUID/e85e0d4ce533b7b99c28b69aa7e08416.ics
+                            [propstat] => Array
+                                (
+                                    [prop] => Array
+                                        (
+                                            [calendar-data] => BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject 4.2.2//EN
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+UID:e85e0d4ce533b7b99c28b69aa7e08416
+DTSTAMP:20251113T080110Z
+SUMMARY:Test Event
+DTSTART:20251108T000000Z
+DTEND:20251108T020000Z
+END:VEVENT
+END:VCALENDAR
+
+                                        )
+
+                                    [status] => HTTP/1.1 200 OK
+                                )
+
+                        )
+
+                )
+
+            [stripped:CalDAVClient\Facade\Responses\AbstractCalDAVResponse:private] => 
+            [found_props:protected] => Array
+                (
+                    [calendar-data] => BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject 4.2.2//EN
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+UID:e85e0d4ce533b7b99c28b69aa7e08416
+DTSTAMP:20251113T080110Z
+SUMMARY:Test Event
+DTSTART:20251108T000000Z
+DTEND:20251108T020000Z
+END:VEVENT
+END:VCALENDAR
+
+                )
+
+            [not_found_props:protected] => 
+        )
+
+)
