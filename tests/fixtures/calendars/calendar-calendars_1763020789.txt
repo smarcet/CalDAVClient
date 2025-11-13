@@ -1,0 +1,1851 @@
+Array
+(
+    [0] => CalDAVClient\Facade\Responses\GetCalendarResponse Object
+        (
+            [body:protected] => 
+            [code:protected] => 200
+            [server_url:protected] => 
+            [xml:protected] => 
+            [content:protected] => Array
+                (
+                    [response] => Array
+                        (
+                            [href] => /290622739/calendars/
+                            [propstat] => Array
+                                (
+                                    [0] => Array
+                                        (
+                                            [prop] => Array
+                                                (
+                                                    [resourcetype] => Array
+                                                        (
+                                                            [collection] => Array
+                                                                (
+                                                                )
+
+                                                        )
+
+                                                    [displayname] => Test Calendar
+                                                    [getctag] => HwoQEgwAAIAIaJ0iKgAAAAAYARgAIhUI+4zh+OCMqpQwEMX7+bGY4YjkmwEoAEgA
+                                                    [supported-calendar-component-set] => Array
+                                                        (
+                                                            [comp] => Array
+                                                                (
+                                                                    [0] => Array
+                                                                        (
+                                                                            [@attributes] => Array
+                                                                                (
+                                                                                    [name] => VEVENT
+                                                                                )
+
+                                                                        )
+
+                                                                    [1] => Array
+                                                                        (
+                                                                            [@attributes] => Array
+                                                                                (
+                                                                                    [name] => VTODO
+                                                                                )
+
+                                                                        )
+
+                                                                    [2] => Array
+                                                                        (
+                                                                            [@attributes] => Array
+                                                                                (
+                                                                                    [name] => VFREEBUSY
+                                                                                )
+
+                                                                        )
+
+                                                                )
+
+                                                        )
+
+                                                    [current-user-privilege-set] => Array
+                                                        (
+                                                            [privilege] => Array
+                                                                (
+                                                                    [0] => Array
+                                                                        (
+                                                                            [read] => Array
+                                                                                (
+                                                                                )
+
+                                                                        )
+
+                                                                    [1] => Array
+                                                                        (
+                                                                            [read-free-busy] => Array
+                                                                                (
+                                                                                )
+
+                                                                        )
+
+                                                                    [2] => Array
+                                                                        (
+                                                                            [read-current-user-privilege-set] => Array
+                                                                                (
+                                                                                )
+
+                                                                        )
+
+                                                                    [3] => Array
+                                                                        (
+                                                                            [write] => Array
+                                                                                (
+                                                                                )
+
+                                                                        )
+
+                                                                    [4] => Array
+                                                                        (
+                                                                            [write-properties] => Array
+                                                                                (
+                                                                                )
+
+                                                                        )
+
+                                                                    [5] => Array
+                                                                        (
+                                                                            [write-content] => Array
+                                                                                (
+                                                                                )
+
+                                                                        )
+
+                                                                    [6] => Array
+                                                                        (
+                                                                            [bind] => Array
+                                                                                (
+                                                                                )
+
+                                                                        )
+
+                                                                    [7] => Array
+                                                                        (
+                                                                            [unbind] => Array
+                                                                                (
+                                                                                )
+
+                                                                        )
+
+                                                                )
+
+                                                        )
+
+                                                )
+
+                                            [status] => HTTP/1.1 200 OK
+                                        )
+
+                                    [1] => Array
+                                        (
+                                            [prop] => Array
+                                                (
+                                                    [calendar-color] => Array
+                                                        (
+                                                        )
+
+                                                )
+
+                                            [status] => HTTP/1.1 404 Not Found
+                                        )
+
+                                )
+
+                        )
+
+                )
+
+            [stripped:CalDAVClient\Facade\Responses\AbstractCalDAVResponse:private] => 
+            [found_props:protected] => Array
+                (
+                    [resourcetype] => Array
+                        (
+                            [collection] => Array
+                                (
+                                )
+
+                        )
+
+                    [displayname] => Test Calendar
+                    [getctag] => HwoQEgwAAIAIaJ0iKgAAAAAYARgAIhUI+4zh+OCMqpQwEMX7+bGY4YjkmwEoAEgA
+                    [supported-calendar-component-set] => Array
+                        (
+                            [comp] => Array
+                                (
+                                    [0] => Array
+                                        (
+                                            [@attributes] => Array
+                                                (
+                                                    [name] => VEVENT
+                                                )
+
+                                        )
+
+                                    [1] => Array
+                                        (
+                                            [@attributes] => Array
+                                                (
+                                                    [name] => VTODO
+                                                )
+
+                                        )
+
+                                    [2] => Array
+                                        (
+                                            [@attributes] => Array
+                                                (
+                                                    [name] => VFREEBUSY
+                                                )
+
+                                        )
+
+                                )
+
+                        )
+
+                    [current-user-privilege-set] => Array
+                        (
+                            [privilege] => Array
+                                (
+                                    [0] => Array
+                                        (
+                                            [read] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [1] => Array
+                                        (
+                                            [read-free-busy] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [2] => Array
+                                        (
+                                            [read-current-user-privilege-set] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [3] => Array
+                                        (
+                                            [write] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [4] => Array
+                                        (
+                                            [write-properties] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [5] => Array
+                                        (
+                                            [write-content] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [6] => Array
+                                        (
+                                            [bind] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [7] => Array
+                                        (
+                                            [unbind] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                )
+
+                        )
+
+                )
+
+            [not_found_props:protected] => Array
+                (
+                )
+
+        )
+
+    [1] => CalDAVClient\Facade\Responses\GetCalendarResponse Object
+        (
+            [body:protected] => 
+            [code:protected] => 200
+            [server_url:protected] => 
+            [xml:protected] => 
+            [content:protected] => Array
+                (
+                    [response] => Array
+                        (
+                            [href] => /user123/calendars/TEST-CALENDAR-UUID/
+                            [propstat] => Array
+                                (
+                                    [prop] => Array
+                                        (
+                                            [resourcetype] => Array
+                                                (
+                                                    [collection] => Array
+                                                        (
+                                                        )
+
+                                                    [calendar] => Array
+                                                        (
+                                                        )
+
+                                                )
+
+                                            [displayname] => Test Calendar
+                                            [calendar-color] => #1BADF8FF
+                                            [getctag] => HwoQEgwAAIAIaELUbAAAAAAYARgAIhYIgp+Zl9rn2auzARCw0b/y9tjB85QBKABIAA==
+                                            [supported-calendar-component-set] => Array
+                                                (
+                                                    [comp] => Array
+                                                        (
+                                                            [@attributes] => Array
+                                                                (
+                                                                    [name] => VEVENT
+                                                                )
+
+                                                        )
+
+                                                )
+
+                                            [current-user-privilege-set] => Array
+                                                (
+                                                    [privilege] => Array
+                                                        (
+                                                            [0] => Array
+                                                                (
+                                                                    [read] => Array
+                                                                        (
+                                                                        )
+
+                                                                )
+
+                                                            [1] => Array
+                                                                (
+                                                                    [read-free-busy] => Array
+                                                                        (
+                                                                        )
+
+                                                                )
+
+                                                            [2] => Array
+                                                                (
+                                                                    [read-current-user-privilege-set] => Array
+                                                                        (
+                                                                        )
+
+                                                                )
+
+                                                            [3] => Array
+                                                                (
+                                                                    [write] => Array
+                                                                        (
+                                                                        )
+
+                                                                )
+
+                                                            [4] => Array
+                                                                (
+                                                                    [write-properties] => Array
+                                                                        (
+                                                                        )
+
+                                                                )
+
+                                                            [5] => Array
+                                                                (
+                                                                    [write-content] => Array
+                                                                        (
+                                                                        )
+
+                                                                )
+
+                                                            [6] => Array
+                                                                (
+                                                                    [bind] => Array
+                                                                        (
+                                                                        )
+
+                                                                )
+
+                                                            [7] => Array
+                                                                (
+                                                                    [unbind] => Array
+                                                                        (
+                                                                        )
+
+                                                                )
+
+                                                        )
+
+                                                )
+
+                                        )
+
+                                    [status] => HTTP/1.1 200 OK
+                                )
+
+                        )
+
+                )
+
+            [stripped:CalDAVClient\Facade\Responses\AbstractCalDAVResponse:private] => 
+            [found_props:protected] => Array
+                (
+                    [resourcetype] => Array
+                        (
+                            [collection] => Array
+                                (
+                                )
+
+                            [calendar] => Array
+                                (
+                                )
+
+                        )
+
+                    [displayname] => Test Calendar
+                    [calendar-color] => #1BADF8FF
+                    [getctag] => HwoQEgwAAIAIaELUbAAAAAAYARgAIhYIgp+Zl9rn2auzARCw0b/y9tjB85QBKABIAA==
+                    [supported-calendar-component-set] => Array
+                        (
+                            [comp] => Array
+                                (
+                                    [@attributes] => Array
+                                        (
+                                            [name] => VEVENT
+                                        )
+
+                                )
+
+                        )
+
+                    [current-user-privilege-set] => Array
+                        (
+                            [privilege] => Array
+                                (
+                                    [0] => Array
+                                        (
+                                            [read] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [1] => Array
+                                        (
+                                            [read-free-busy] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [2] => Array
+                                        (
+                                            [read-current-user-privilege-set] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [3] => Array
+                                        (
+                                            [write] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [4] => Array
+                                        (
+                                            [write-properties] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [5] => Array
+                                        (
+                                            [write-content] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [6] => Array
+                                        (
+                                            [bind] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [7] => Array
+                                        (
+                                            [unbind] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                )
+
+                        )
+
+                )
+
+            [not_found_props:protected] => 
+        )
+
+    [2] => CalDAVClient\Facade\Responses\GetCalendarResponse Object
+        (
+            [body:protected] => 
+            [code:protected] => 200
+            [server_url:protected] => 
+            [xml:protected] => 
+            [content:protected] => Array
+                (
+                    [response] => Array
+                        (
+                            [href] => /user123/calendars/TEST-CALENDAR-UUID/
+                            [propstat] => Array
+                                (
+                                    [prop] => Array
+                                        (
+                                            [resourcetype] => Array
+                                                (
+                                                    [collection] => Array
+                                                        (
+                                                        )
+
+                                                    [calendar] => Array
+                                                        (
+                                                        )
+
+                                                )
+
+                                            [displayname] => Test Calendar
+                                            [calendar-color] => #FF2968FF
+                                            [getctag] => HwoQEgwAAH/B4G04fgABAAEYARgAIhUIyJvti6OZnbt+EM3PzvyEtoGMlgEoAEgA
+                                            [supported-calendar-component-set] => Array
+                                                (
+                                                    [comp] => Array
+                                                        (
+                                                            [@attributes] => Array
+                                                                (
+                                                                    [name] => VEVENT
+                                                                )
+
+                                                        )
+
+                                                )
+
+                                            [current-user-privilege-set] => Array
+                                                (
+                                                    [privilege] => Array
+                                                        (
+                                                            [0] => Array
+                                                                (
+                                                                    [read] => Array
+                                                                        (
+                                                                        )
+
+                                                                )
+
+                                                            [1] => Array
+                                                                (
+                                                                    [read-free-busy] => Array
+                                                                        (
+                                                                        )
+
+                                                                )
+
+                                                            [2] => Array
+                                                                (
+                                                                    [read-current-user-privilege-set] => Array
+                                                                        (
+                                                                        )
+
+                                                                )
+
+                                                            [3] => Array
+                                                                (
+                                                                    [write] => Array
+                                                                        (
+                                                                        )
+
+                                                                )
+
+                                                            [4] => Array
+                                                                (
+                                                                    [write-properties] => Array
+                                                                        (
+                                                                        )
+
+                                                                )
+
+                                                            [5] => Array
+                                                                (
+                                                                    [write-content] => Array
+                                                                        (
+                                                                        )
+
+                                                                )
+
+                                                            [6] => Array
+                                                                (
+                                                                    [bind] => Array
+                                                                        (
+                                                                        )
+
+                                                                )
+
+                                                            [7] => Array
+                                                                (
+                                                                    [unbind] => Array
+                                                                        (
+                                                                        )
+
+                                                                )
+
+                                                        )
+
+                                                )
+
+                                        )
+
+                                    [status] => HTTP/1.1 200 OK
+                                )
+
+                        )
+
+                )
+
+            [stripped:CalDAVClient\Facade\Responses\AbstractCalDAVResponse:private] => 
+            [found_props:protected] => Array
+                (
+                    [resourcetype] => Array
+                        (
+                            [collection] => Array
+                                (
+                                )
+
+                            [calendar] => Array
+                                (
+                                )
+
+                        )
+
+                    [displayname] => Test Calendar
+                    [calendar-color] => #FF2968FF
+                    [getctag] => HwoQEgwAAH/B4G04fgABAAEYARgAIhUIyJvti6OZnbt+EM3PzvyEtoGMlgEoAEgA
+                    [supported-calendar-component-set] => Array
+                        (
+                            [comp] => Array
+                                (
+                                    [@attributes] => Array
+                                        (
+                                            [name] => VEVENT
+                                        )
+
+                                )
+
+                        )
+
+                    [current-user-privilege-set] => Array
+                        (
+                            [privilege] => Array
+                                (
+                                    [0] => Array
+                                        (
+                                            [read] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [1] => Array
+                                        (
+                                            [read-free-busy] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [2] => Array
+                                        (
+                                            [read-current-user-privilege-set] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [3] => Array
+                                        (
+                                            [write] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [4] => Array
+                                        (
+                                            [write-properties] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [5] => Array
+                                        (
+                                            [write-content] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [6] => Array
+                                        (
+                                            [bind] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [7] => Array
+                                        (
+                                            [unbind] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                )
+
+                        )
+
+                )
+
+            [not_found_props:protected] => 
+        )
+
+    [3] => CalDAVClient\Facade\Responses\GetCalendarResponse Object
+        (
+            [body:protected] => 
+            [code:protected] => 200
+            [server_url:protected] => 
+            [xml:protected] => 
+            [content:protected] => Array
+                (
+                    [response] => Array
+                        (
+                            [href] => /user123/calendars/TEST-CALENDAR-UUID/
+                            [propstat] => Array
+                                (
+                                    [prop] => Array
+                                        (
+                                            [resourcetype] => Array
+                                                (
+                                                    [collection] => Array
+                                                        (
+                                                        )
+
+                                                    [calendar] => Array
+                                                        (
+                                                        )
+
+                                                )
+
+                                            [displayname] => Test Calendar
+                                            [calendar-color] => #63DA38FF
+                                            [getctag] => HwoQEgwAAIAIaJwYVgADAAAYARgAIhYInoWV9dyevtPUARCb3Nni0diJmp8BKABIAA==
+                                            [supported-calendar-component-set] => Array
+                                                (
+                                                    [comp] => Array
+                                                        (
+                                                            [@attributes] => Array
+                                                                (
+                                                                    [name] => VEVENT
+                                                                )
+
+                                                        )
+
+                                                )
+
+                                            [current-user-privilege-set] => Array
+                                                (
+                                                    [privilege] => Array
+                                                        (
+                                                            [0] => Array
+                                                                (
+                                                                    [read] => Array
+                                                                        (
+                                                                        )
+
+                                                                )
+
+                                                            [1] => Array
+                                                                (
+                                                                    [read-free-busy] => Array
+                                                                        (
+                                                                        )
+
+                                                                )
+
+                                                            [2] => Array
+                                                                (
+                                                                    [read-current-user-privilege-set] => Array
+                                                                        (
+                                                                        )
+
+                                                                )
+
+                                                            [3] => Array
+                                                                (
+                                                                    [write] => Array
+                                                                        (
+                                                                        )
+
+                                                                )
+
+                                                            [4] => Array
+                                                                (
+                                                                    [write-properties] => Array
+                                                                        (
+                                                                        )
+
+                                                                )
+
+                                                            [5] => Array
+                                                                (
+                                                                    [write-content] => Array
+                                                                        (
+                                                                        )
+
+                                                                )
+
+                                                            [6] => Array
+                                                                (
+                                                                    [bind] => Array
+                                                                        (
+                                                                        )
+
+                                                                )
+
+                                                            [7] => Array
+                                                                (
+                                                                    [unbind] => Array
+                                                                        (
+                                                                        )
+
+                                                                )
+
+                                                        )
+
+                                                )
+
+                                        )
+
+                                    [status] => HTTP/1.1 200 OK
+                                )
+
+                        )
+
+                )
+
+            [stripped:CalDAVClient\Facade\Responses\AbstractCalDAVResponse:private] => 
+            [found_props:protected] => Array
+                (
+                    [resourcetype] => Array
+                        (
+                            [collection] => Array
+                                (
+                                )
+
+                            [calendar] => Array
+                                (
+                                )
+
+                        )
+
+                    [displayname] => Test Calendar
+                    [calendar-color] => #63DA38FF
+                    [getctag] => HwoQEgwAAIAIaJwYVgADAAAYARgAIhYInoWV9dyevtPUARCb3Nni0diJmp8BKABIAA==
+                    [supported-calendar-component-set] => Array
+                        (
+                            [comp] => Array
+                                (
+                                    [@attributes] => Array
+                                        (
+                                            [name] => VEVENT
+                                        )
+
+                                )
+
+                        )
+
+                    [current-user-privilege-set] => Array
+                        (
+                            [privilege] => Array
+                                (
+                                    [0] => Array
+                                        (
+                                            [read] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [1] => Array
+                                        (
+                                            [read-free-busy] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [2] => Array
+                                        (
+                                            [read-current-user-privilege-set] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [3] => Array
+                                        (
+                                            [write] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [4] => Array
+                                        (
+                                            [write-properties] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [5] => Array
+                                        (
+                                            [write-content] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [6] => Array
+                                        (
+                                            [bind] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [7] => Array
+                                        (
+                                            [unbind] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                )
+
+                        )
+
+                )
+
+            [not_found_props:protected] => 
+        )
+
+    [4] => CalDAVClient\Facade\Responses\GetCalendarResponse Object
+        (
+            [body:protected] => 
+            [code:protected] => 200
+            [server_url:protected] => 
+            [xml:protected] => 
+            [content:protected] => Array
+                (
+                    [response] => Array
+                        (
+                            [href] => /290622739/calendars/ce690dbd-2734-4e6f-a594-d283e5a3da8a/
+                            [propstat] => Array
+                                (
+                                    [prop] => Array
+                                        (
+                                            [resourcetype] => Array
+                                                (
+                                                    [collection] => Array
+                                                        (
+                                                        )
+
+                                                    [calendar] => Array
+                                                        (
+                                                        )
+
+                                                )
+
+                                            [displayname] => Test Calendar
+                                            [calendar-color] => #B14BC9FF
+                                            [getctag] => HwoQEgwAAA5pRqrlQwAAAAAYARgAIhUI5oiV/oXt2oUpEK6es/qO1OOTrgEoAEgA
+                                            [supported-calendar-component-set] => Array
+                                                (
+                                                    [comp] => Array
+                                                        (
+                                                            [@attributes] => Array
+                                                                (
+                                                                    [name] => VTODO
+                                                                )
+
+                                                        )
+
+                                                )
+
+                                            [current-user-privilege-set] => Array
+                                                (
+                                                    [privilege] => Array
+                                                        (
+                                                            [0] => Array
+                                                                (
+                                                                    [read] => Array
+                                                                        (
+                                                                        )
+
+                                                                )
+
+                                                            [1] => Array
+                                                                (
+                                                                    [read-free-busy] => Array
+                                                                        (
+                                                                        )
+
+                                                                )
+
+                                                            [2] => Array
+                                                                (
+                                                                    [read-current-user-privilege-set] => Array
+                                                                        (
+                                                                        )
+
+                                                                )
+
+                                                            [3] => Array
+                                                                (
+                                                                    [write] => Array
+                                                                        (
+                                                                        )
+
+                                                                )
+
+                                                            [4] => Array
+                                                                (
+                                                                    [write-properties] => Array
+                                                                        (
+                                                                        )
+
+                                                                )
+
+                                                            [5] => Array
+                                                                (
+                                                                    [write-content] => Array
+                                                                        (
+                                                                        )
+
+                                                                )
+
+                                                            [6] => Array
+                                                                (
+                                                                    [bind] => Array
+                                                                        (
+                                                                        )
+
+                                                                )
+
+                                                            [7] => Array
+                                                                (
+                                                                    [unbind] => Array
+                                                                        (
+                                                                        )
+
+                                                                )
+
+                                                        )
+
+                                                )
+
+                                        )
+
+                                    [status] => HTTP/1.1 200 OK
+                                )
+
+                        )
+
+                )
+
+            [stripped:CalDAVClient\Facade\Responses\AbstractCalDAVResponse:private] => 
+            [found_props:protected] => Array
+                (
+                    [resourcetype] => Array
+                        (
+                            [collection] => Array
+                                (
+                                )
+
+                            [calendar] => Array
+                                (
+                                )
+
+                        )
+
+                    [displayname] => Test Calendar
+                    [calendar-color] => #B14BC9FF
+                    [getctag] => HwoQEgwAAA5pRqrlQwAAAAAYARgAIhUI5oiV/oXt2oUpEK6es/qO1OOTrgEoAEgA
+                    [supported-calendar-component-set] => Array
+                        (
+                            [comp] => Array
+                                (
+                                    [@attributes] => Array
+                                        (
+                                            [name] => VTODO
+                                        )
+
+                                )
+
+                        )
+
+                    [current-user-privilege-set] => Array
+                        (
+                            [privilege] => Array
+                                (
+                                    [0] => Array
+                                        (
+                                            [read] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [1] => Array
+                                        (
+                                            [read-free-busy] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [2] => Array
+                                        (
+                                            [read-current-user-privilege-set] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [3] => Array
+                                        (
+                                            [write] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [4] => Array
+                                        (
+                                            [write-properties] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [5] => Array
+                                        (
+                                            [write-content] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [6] => Array
+                                        (
+                                            [bind] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [7] => Array
+                                        (
+                                            [unbind] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                )
+
+                        )
+
+                )
+
+            [not_found_props:protected] => 
+        )
+
+    [5] => CalDAVClient\Facade\Responses\GetCalendarResponse Object
+        (
+            [body:protected] => 
+            [code:protected] => 200
+            [server_url:protected] => 
+            [xml:protected] => 
+            [content:protected] => Array
+                (
+                    [response] => Array
+                        (
+                            [href] => /290622739/calendars/inbox/
+                            [propstat] => Array
+                                (
+                                    [0] => Array
+                                        (
+                                            [prop] => Array
+                                                (
+                                                    [resourcetype] => Array
+                                                        (
+                                                            [collection] => Array
+                                                                (
+                                                                )
+
+                                                            [schedule-inbox] => Array
+                                                                (
+                                                                )
+
+                                                        )
+
+                                                    [getctag] => HwoQEgwAAH6xwAhlsAABAAAYARgAIhUI14ztpc6s8eknEL3Ijcit7LfumQEoAEgA
+                                                    [supported-calendar-component-set] => Array
+                                                        (
+                                                            [comp] => Array
+                                                                (
+                                                                    [@attributes] => Array
+                                                                        (
+                                                                            [name] => VEVENT
+                                                                        )
+
+                                                                )
+
+                                                        )
+
+                                                    [current-user-privilege-set] => Array
+                                                        (
+                                                            [privilege] => Array
+                                                                (
+                                                                    [0] => Array
+                                                                        (
+                                                                            [read] => Array
+                                                                                (
+                                                                                )
+
+                                                                        )
+
+                                                                    [1] => Array
+                                                                        (
+                                                                            [read-free-busy] => Array
+                                                                                (
+                                                                                )
+
+                                                                        )
+
+                                                                    [2] => Array
+                                                                        (
+                                                                            [read-current-user-privilege-set] => Array
+                                                                                (
+                                                                                )
+
+                                                                        )
+
+                                                                    [3] => Array
+                                                                        (
+                                                                            [write] => Array
+                                                                                (
+                                                                                )
+
+                                                                        )
+
+                                                                    [4] => Array
+                                                                        (
+                                                                            [write-properties] => Array
+                                                                                (
+                                                                                )
+
+                                                                        )
+
+                                                                    [5] => Array
+                                                                        (
+                                                                            [write-content] => Array
+                                                                                (
+                                                                                )
+
+                                                                        )
+
+                                                                    [6] => Array
+                                                                        (
+                                                                            [bind] => Array
+                                                                                (
+                                                                                )
+
+                                                                        )
+
+                                                                    [7] => Array
+                                                                        (
+                                                                            [unbind] => Array
+                                                                                (
+                                                                                )
+
+                                                                        )
+
+                                                                    [8] => Array
+                                                                        (
+                                                                            [schedule-deliver] => Array
+                                                                                (
+                                                                                )
+
+                                                                        )
+
+                                                                )
+
+                                                        )
+
+                                                )
+
+                                            [status] => HTTP/1.1 200 OK
+                                        )
+
+                                    [1] => Array
+                                        (
+                                            [prop] => Array
+                                                (
+                                                    [displayname] => Test Calendar
+                                                        (
+                                                        )
+
+                                                    [calendar-color] => Array
+                                                        (
+                                                        )
+
+                                                )
+
+                                            [status] => HTTP/1.1 404 Not Found
+                                        )
+
+                                )
+
+                        )
+
+                )
+
+            [stripped:CalDAVClient\Facade\Responses\AbstractCalDAVResponse:private] => 
+            [found_props:protected] => Array
+                (
+                    [resourcetype] => Array
+                        (
+                            [collection] => Array
+                                (
+                                )
+
+                            [schedule-inbox] => Array
+                                (
+                                )
+
+                        )
+
+                    [getctag] => HwoQEgwAAH6xwAhlsAABAAAYARgAIhUI14ztpc6s8eknEL3Ijcit7LfumQEoAEgA
+                    [supported-calendar-component-set] => Array
+                        (
+                            [comp] => Array
+                                (
+                                    [@attributes] => Array
+                                        (
+                                            [name] => VEVENT
+                                        )
+
+                                )
+
+                        )
+
+                    [current-user-privilege-set] => Array
+                        (
+                            [privilege] => Array
+                                (
+                                    [0] => Array
+                                        (
+                                            [read] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [1] => Array
+                                        (
+                                            [read-free-busy] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [2] => Array
+                                        (
+                                            [read-current-user-privilege-set] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [3] => Array
+                                        (
+                                            [write] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [4] => Array
+                                        (
+                                            [write-properties] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [5] => Array
+                                        (
+                                            [write-content] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [6] => Array
+                                        (
+                                            [bind] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [7] => Array
+                                        (
+                                            [unbind] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [8] => Array
+                                        (
+                                            [schedule-deliver] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                )
+
+                        )
+
+                )
+
+            [not_found_props:protected] => Array
+                (
+                )
+
+        )
+
+    [6] => CalDAVClient\Facade\Responses\GetCalendarResponse Object
+        (
+            [body:protected] => 
+            [code:protected] => 200
+            [server_url:protected] => 
+            [xml:protected] => 
+            [content:protected] => Array
+                (
+                    [response] => Array
+                        (
+                            [href] => /290622739/calendars/notification/
+                            [propstat] => Array
+                                (
+                                    [0] => Array
+                                        (
+                                            [prop] => Array
+                                                (
+                                                    [resourcetype] => Array
+                                                        (
+                                                            [collection] => Array
+                                                                (
+                                                                )
+
+                                                            [notification] => Array
+                                                                (
+                                                                )
+
+                                                        )
+
+                                                    [getctag] => HwoQEgwAABHjsVgNSgAAABcYARgAIhUI4onFlfaRlNFpELaFo9G2rbeqigEoAEgA
+                                                    [current-user-privilege-set] => Array
+                                                        (
+                                                            [privilege] => Array
+                                                                (
+                                                                    [0] => Array
+                                                                        (
+                                                                            [read] => Array
+                                                                                (
+                                                                                )
+
+                                                                        )
+
+                                                                    [1] => Array
+                                                                        (
+                                                                            [read-current-user-privilege-set] => Array
+                                                                                (
+                                                                                )
+
+                                                                        )
+
+                                                                    [2] => Array
+                                                                        (
+                                                                            [unbind] => Array
+                                                                                (
+                                                                                )
+
+                                                                        )
+
+                                                                )
+
+                                                        )
+
+                                                )
+
+                                            [status] => HTTP/1.1 200 OK
+                                        )
+
+                                    [1] => Array
+                                        (
+                                            [prop] => Array
+                                                (
+                                                    [displayname] => Test Calendar
+                                                        (
+                                                        )
+
+                                                    [calendar-color] => Array
+                                                        (
+                                                        )
+
+                                                    [supported-calendar-component-set] => Array
+                                                        (
+                                                        )
+
+                                                )
+
+                                            [status] => HTTP/1.1 404 Not Found
+                                        )
+
+                                )
+
+                        )
+
+                )
+
+            [stripped:CalDAVClient\Facade\Responses\AbstractCalDAVResponse:private] => 
+            [found_props:protected] => Array
+                (
+                    [resourcetype] => Array
+                        (
+                            [collection] => Array
+                                (
+                                )
+
+                            [notification] => Array
+                                (
+                                )
+
+                        )
+
+                    [getctag] => HwoQEgwAABHjsVgNSgAAABcYARgAIhUI4onFlfaRlNFpELaFo9G2rbeqigEoAEgA
+                    [current-user-privilege-set] => Array
+                        (
+                            [privilege] => Array
+                                (
+                                    [0] => Array
+                                        (
+                                            [read] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [1] => Array
+                                        (
+                                            [read-current-user-privilege-set] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [2] => Array
+                                        (
+                                            [unbind] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                )
+
+                        )
+
+                )
+
+            [not_found_props:protected] => Array
+                (
+                )
+
+        )
+
+    [7] => CalDAVClient\Facade\Responses\GetCalendarResponse Object
+        (
+            [body:protected] => 
+            [code:protected] => 200
+            [server_url:protected] => 
+            [xml:protected] => 
+            [content:protected] => Array
+                (
+                    [response] => Array
+                        (
+                            [href] => /290622739/calendars/outbox/
+                            [propstat] => Array
+                                (
+                                    [0] => Array
+                                        (
+                                            [prop] => Array
+                                                (
+                                                    [resourcetype] => Array
+                                                        (
+                                                            [collection] => Array
+                                                                (
+                                                                )
+
+                                                            [schedule-outbox] => Array
+                                                                (
+                                                                )
+
+                                                        )
+
+                                                    [supported-calendar-component-set] => Array
+                                                        (
+                                                            [comp] => Array
+                                                                (
+                                                                    [0] => Array
+                                                                        (
+                                                                            [@attributes] => Array
+                                                                                (
+                                                                                    [name] => VEVENT
+                                                                                )
+
+                                                                        )
+
+                                                                    [1] => Array
+                                                                        (
+                                                                            [@attributes] => Array
+                                                                                (
+                                                                                    [name] => VTODO
+                                                                                )
+
+                                                                        )
+
+                                                                )
+
+                                                        )
+
+                                                    [current-user-privilege-set] => Array
+                                                        (
+                                                            [privilege] => Array
+                                                                (
+                                                                    [0] => Array
+                                                                        (
+                                                                            [read] => Array
+                                                                                (
+                                                                                )
+
+                                                                        )
+
+                                                                    [1] => Array
+                                                                        (
+                                                                            [read-free-busy] => Array
+                                                                                (
+                                                                                )
+
+                                                                        )
+
+                                                                    [2] => Array
+                                                                        (
+                                                                            [read-current-user-privilege-set] => Array
+                                                                                (
+                                                                                )
+
+                                                                        )
+
+                                                                    [3] => Array
+                                                                        (
+                                                                            [schedule-send] => Array
+                                                                                (
+                                                                                )
+
+                                                                        )
+
+                                                                )
+
+                                                        )
+
+                                                )
+
+                                            [status] => HTTP/1.1 200 OK
+                                        )
+
+                                    [1] => Array
+                                        (
+                                            [prop] => Array
+                                                (
+                                                    [displayname] => Test Calendar
+                                                        (
+                                                        )
+
+                                                    [calendar-color] => Array
+                                                        (
+                                                        )
+
+                                                    [getctag] => Array
+                                                        (
+                                                        )
+
+                                                )
+
+                                            [status] => HTTP/1.1 404 Not Found
+                                        )
+
+                                )
+
+                        )
+
+                )
+
+            [stripped:CalDAVClient\Facade\Responses\AbstractCalDAVResponse:private] => 
+            [found_props:protected] => Array
+                (
+                    [resourcetype] => Array
+                        (
+                            [collection] => Array
+                                (
+                                )
+
+                            [schedule-outbox] => Array
+                                (
+                                )
+
+                        )
+
+                    [supported-calendar-component-set] => Array
+                        (
+                            [comp] => Array
+                                (
+                                    [0] => Array
+                                        (
+                                            [@attributes] => Array
+                                                (
+                                                    [name] => VEVENT
+                                                )
+
+                                        )
+
+                                    [1] => Array
+                                        (
+                                            [@attributes] => Array
+                                                (
+                                                    [name] => VTODO
+                                                )
+
+                                        )
+
+                                )
+
+                        )
+
+                    [current-user-privilege-set] => Array
+                        (
+                            [privilege] => Array
+                                (
+                                    [0] => Array
+                                        (
+                                            [read] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [1] => Array
+                                        (
+                                            [read-free-busy] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [2] => Array
+                                        (
+                                            [read-current-user-privilege-set] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                    [3] => Array
+                                        (
+                                            [schedule-send] => Array
+                                                (
+                                                )
+
+                                        )
+
+                                )
+
+                        )
+
+                )
+
+            [not_found_props:protected] => Array
+                (
+                )
+
+        )
+
+)
