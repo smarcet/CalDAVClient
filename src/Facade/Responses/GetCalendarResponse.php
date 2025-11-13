@@ -248,4 +248,37 @@ final class GetCalendarResponse extends ETagEntityResponse
 
         return $alarms;
     }
+
+    /**
+     * Expand recurring events while preserving RRULE on instances
+     *
+     * Sabre's expand() consumes RRULE during expansion. This method
+     * captures RRULE before expansion and attaches it to each instance
+     * as X-MASTER-RRULE property for frontend display.
+     *
+     * @param \Sabre\VObject\Component\VCalendar $vcalendar
+     * @param \DateTime $start
+     * @param \DateTime $end
+     * @return \Sabre\VObject\Component\VCalendar Expanded calendar with preserved RRULE
+     */
+    public static function expandWithRRulePreservation($vcalendar, $start, $end)
+    {
+        // Capture RRULE from master event BEFORE expansion
+        $masterRRule = null;
+        if (isset($vcalendar->VEVENT) && isset($vcalendar->VEVENT->RRULE)) {
+            $masterRRule = (string)$vcalendar->VEVENT->RRULE;
+        }
+
+        // Expand events
+        $expanded = $vcalendar->expand($start, $end);
+
+        // Attach RRULE to each expanded instance
+        if ($masterRRule !== null) {
+            foreach ($expanded->VEVENT as $vevent) {
+                $vevent->add('X-MASTER-RRULE', $masterRRule);
+            }
+        }
+
+        return $expanded;
+    }
 }
